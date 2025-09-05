@@ -1,9 +1,14 @@
-import React from "react";
+"use client";
+import React , {useState} from "react";
 import { Search, ShoppingCart, Heart, Menu } from "lucide-react";
 import Image from "next/image";
 import LocationBar from "../molecules/LocationBar";
+import Login from "./Login";
 
 export default function Header() {
+
+   const [isLoginOpen, setIsLoginOpen] = useState(false);
+
    const location = {
     iconSrc:
       "https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg",
@@ -93,8 +98,13 @@ export default function Header() {
         </div>
 
         {/* Acciones */}
-        <div className="flex items-center space-x-6">
-          <button className="text-sm">Hola, Inicia sesión</button>
+          <div className="flex items-center space-x-6">
+          <button
+            className="text-sm"
+            onClick={() => setIsLoginOpen(true)}
+          >
+            Hola, Inicia sesión
+          </button>
           <button className="text-sm">Mis compras</button>
           <Heart />
           <div className="relative">
@@ -107,6 +117,11 @@ export default function Header() {
       </div>
 
       <LocationBar {...location} />
+
+        {isLoginOpen && (
+        <Login  isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      )}
+
     </header>
   );
 }
