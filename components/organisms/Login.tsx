@@ -16,8 +16,6 @@ interface LoginProps {
 }
 
 export default function Login({ isOpen, onClose }: LoginProps) {
-  if (!isOpen) return null;
-
   const {
     register,
     handleSubmit,
@@ -27,6 +25,8 @@ export default function Login({ isOpen, onClose }: LoginProps) {
   });
 
   const [mensaje, setMensaje] = React.useState("");
+
+  if (!isOpen) return null;
 
   const onSubmit: SubmitHandler<LoginDTO> = async (data) => {
     const { user, password } = data;
@@ -50,6 +50,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
     }
 
     setMensaje("✅ Iniciado sesión exitosamente.");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     onClose();
   };
 
@@ -109,7 +110,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
 
         <p className="text-sm text-center mt-4">
           ¿Aún no tienes cuenta?{" "}
-          <a href="#" className="text-blue-600 underline">
+          <a href="/SignUp" className="text-blue-600 underline">
             Regístrate
           </a>
         </p>

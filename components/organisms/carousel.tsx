@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 const images = [
   "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200",
@@ -29,7 +30,7 @@ function Carousel() {
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((src, idx) => (
-          <img
+          <Image
             key={idx}
             src={src}
             alt={`Slide ${idx}`}
