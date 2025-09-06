@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,6 +65,19 @@ export default function Login({ isOpen, onClose }: LoginProps) {
         >
           ✕
         </button>
+
+        <a
+          href="https://www.falabella.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
+            alt="Falabella"
+            width={100}
+            height={24}
+          />
+        </a>
 
         <h2 className="text-xl font-semibold mb-4">
           Inicia sesión para comprar
