@@ -112,7 +112,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
+            className="w-full bg-[#343e49] text-white py-2 rounded-md"
           >
             Ingresar
           </button>
