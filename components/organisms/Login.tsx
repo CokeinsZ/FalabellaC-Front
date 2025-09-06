@@ -124,7 +124,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
 
         <p className="text-sm text-center mt-4">
           ¿Aún no tienes cuenta?{" "}
-          <a href="/SignUp" className="text-blue-600 underline">
+          <a href="/SignUp" className="text-black underline">
             Regístrate
           </a>
         </p>
