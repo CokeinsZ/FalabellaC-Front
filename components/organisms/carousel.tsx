@@ -13,6 +13,22 @@ const images = [
 
 function Carousel() {
   const [current, setCurrent] = useState(0);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    function updateSize() {
+      if (containerRef.current) {
+        setDimensions({
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight,
+        });
+      }
+    }
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   const prevSlide = () => {
     setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -23,19 +39,21 @@ function Carousel() {
   };
 
   return (
-    <div className="relative w-100% h-50 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg">
+  <div ref={containerRef} className="relative w-100% h-50 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg">
       {/* Images */}
       <div
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((src, idx) => (
-          <Image
-            key={idx}
-            src={src}
-            alt={`Slide ${idx}`}
-            className="w-full object-cover"
-          />
+            <Image
+              key={idx}
+              src={src}
+              alt={`Slide ${idx}`}
+              width={dimensions.width }
+              height={dimensions.height }
+              className="w-full object-cover"
+            />
         ))}
       </div>
 

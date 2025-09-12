@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";
-import Image from "next/image";
 
 import InputComponents from "../atoms/InputComponents";
 import { loginScheme } from "@/schemas/login";
@@ -56,7 +56,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         {/* Botón cerrar */}
         <button
@@ -72,7 +72,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
           rel="noopener noreferrer"
         >
           <Image
-            src= "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
+            src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
             alt="Falabella"
             width={100}
             height={24}
@@ -112,7 +112,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
 
           <button
             type="submit"
-            className="w-full bg--600 text-white py-2 rounded-md hover:bg-green-700"
+            className="w-full bg-[#343e49] text-white py-2 rounded-md"
           >
             Ingresar
           </button>
@@ -124,7 +124,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
 
         <p className="text-sm text-center mt-4">
           ¿Aún no tienes cuenta?{" "}
-          <a href="/SignUp" className="text-black-600 underline">
+          <a href="/SignUp" className="text-black underline">
             Regístrate
           </a>
         </p>
