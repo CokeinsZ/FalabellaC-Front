@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn } from "react-hook-form";
-
+import { standarinput } from "@/lib/Token";
 interface valuesSelect {
   value: string;
   label: string;
@@ -10,7 +10,7 @@ interface InputComponentsProps {
   typeElement: "text" | "password";
   idElement: string;
   listValues?: valuesSelect[];
-  register: UseFormRegisterReturn; // 👈 se pasa desde el padre
+  register: UseFormRegisterReturn;
 }
 
 export default function InputComponents({
@@ -38,7 +38,7 @@ export default function InputComponents({
           {...register}
           type={typeElement}
           id={idElement}
-          className="mt-1 w-full border border-gray-400 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          className={standarinput}
         />
       )}
     </>
