@@ -10,12 +10,18 @@ interface Producto {
   precio: number;
 }
 
+interface ImagenProducto {
+  url: string;
+  orden: number;
+}
+
 interface PageProps {
   params: Promise<{ id: string }>; // /products/[id]
 }
 
 export default function Page({ params }: PageProps) {
   const [producto, setProducto] = useState<Producto | null>(null);
+  const [imagenesProducto, setImagenesProducto] = useState<ImagenProducto[] | null>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -40,7 +46,24 @@ export default function Page({ params }: PageProps) {
       }
 
       setLoading(false);
-    };
+  };
+
+  const fetchImagenes = async (id: string) => {
+      setLoading(true);
+
+      const { data, error } = await supabase
+        .from("imagenes_producto")
+        .select("url, orden")
+        .eq("producto_id", Number(id));
+
+      if (error) {
+        setErrorMsg(error.message);
+      } else {
+        setImagenesProducto(data);
+      }
+
+      setLoading(false);
+  };
 
   useEffect(() => {
   const loadData = async () => {
