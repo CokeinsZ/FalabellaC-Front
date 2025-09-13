@@ -21,7 +21,7 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const [producto, setProducto] = useState<Producto | null>(null);
-  const [imagenesProducto, setImagenesProducto] = useState<ImagenProducto[] | null>([]);
+  const [imagenesProducto, setImagenesProducto] = useState<ImagenProducto[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -69,6 +69,7 @@ export default function Page({ params }: PageProps) {
   const loadData = async () => {
     const id = await extractId();
     fetchProducto(id);
+    fetchImagenes(id);
   };
   loadData();
 
@@ -78,6 +79,17 @@ export default function Page({ params }: PageProps) {
   if (errorMsg) return <p className="text-red-500">Error: {errorMsg}</p>;
   if (!producto) return <p>No se encontró el producto.</p>;
 
+
+  const imagenes = imagenesProducto.map((imagen, index) => (
+    <Image
+      key={index}
+      src={imagen.url}
+      alt="Imagen"
+      width={100}
+      height={100}
+    />
+  ));
+
   return (
     <div className="p-6 max-w-md mx-auto bg-white shadow rounded-lg">
       <h1 className="text-2xl font-bold mb-4">{producto.nombre}</h1>
@@ -85,12 +97,7 @@ export default function Page({ params }: PageProps) {
       <p className="text-green-600 text-lg font-semibold mt-2">
         ${producto.precio.toLocaleString()}
       </p>
-      <Image
-        src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
-        alt="Falabellla"
-        width={120}
-        height={40}
-      />
+      {imagenes}
     </div>
   );
 }
