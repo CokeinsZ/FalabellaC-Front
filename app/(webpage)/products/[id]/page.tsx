@@ -73,7 +73,7 @@ export default function Page({ params }: PageProps) {
   };
   loadData();
 
-}, [params]);
+});
 
   if (loading) return <p>Cargando producto...</p>;
   if (errorMsg) return <p className="text-red-500">Error: {errorMsg}</p>;
