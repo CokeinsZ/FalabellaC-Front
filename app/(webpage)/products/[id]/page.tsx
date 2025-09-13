@@ -48,6 +48,8 @@ export default function Page({ params }: PageProps) {
     fetchProducto(id);
   };
   loadData();
+
+  //extractId().then(id => fetchProducto(id));
 }, [params]);
 
   if (loading) return <p>Cargando producto...</p>;
