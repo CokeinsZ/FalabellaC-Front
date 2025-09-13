@@ -81,7 +81,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchProductos();
-  });
+  }, []);
 
   return (
     <div>
