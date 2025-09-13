@@ -11,7 +11,7 @@ interface Producto {
 }
 
 interface PageProps {
-  params: { id: string }; // /products/[id]
+  params: Promise<{ id: string }>; // /products/[id]
 }
 
 export default function Page({ params }: PageProps) {
@@ -19,14 +19,18 @@ export default function Page({ params }: PageProps) {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
-  useEffect(() => {
-    const fetchProducto = async () => {
+  const extractId = async () => {
+    const resolvedParams = await params;
+    return resolvedParams.id;
+  }
+
+  const fetchProducto = async (id: string) => {
       setLoading(true);
 
       const { data, error } = await supabase
         .from("productos")
         .select("id, sku, nombre, precio")
-        .eq("id", Number(params.id))
+        .eq("id", Number(id))
         .maybeSingle(); 
 
       if (error) {
@@ -38,8 +42,13 @@ export default function Page({ params }: PageProps) {
       setLoading(false);
     };
 
-    fetchProducto();
-  }, [params.id]);
+  useEffect(() => {
+  const loadData = async () => {
+    const id = await extractId();
+    fetchProducto(id);
+  };
+  loadData();
+}, [params]);
 
   if (loading) return <p>Cargando producto...</p>;
   if (errorMsg) return <p className="text-red-500">Error: {errorMsg}</p>;
@@ -52,6 +61,6 @@ export default function Page({ params }: PageProps) {
       <p className="text-green-600 text-lg font-semibold mt-2">
         ${producto.precio.toLocaleString()}
       </p>
-    </div>
-  );
+    </div>
+  );
 }
