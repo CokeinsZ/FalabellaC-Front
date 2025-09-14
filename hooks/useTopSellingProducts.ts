@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { ProductCardDTO } from "@/components/atoms/productCard.type";
+import { ProductCardDTO } from "@/components/molecules/topSales";
 
 interface ProductoBase {
   id: number;

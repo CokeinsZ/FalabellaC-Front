@@ -1,5 +1,14 @@
 import ProductCard from "@/components/atoms/productCard";
-import { ProductCardDTO } from "@/components/atoms/productCard.type";
+export interface ProductCardDTO {
+  id: number | string;
+  name: string;
+  brand?: string;
+  price: number;
+  oldPrice?: number;
+  discount?: string;
+  rating?: number;
+  img: string;
+}
 
 interface topSalesProps {
   title: string;
