@@ -1,11 +1,14 @@
 "use client";
 
-import TopSales from "@/components/molecules/topSales";
 import Carousel from "@/components/organisms/carousel";
 import Offers from "@/components/organisms/Offers";
+import TopSales from "@/components/molecules/topSales";
+import CategoriesGrid from "@/components/molecules/CategoriesGrid";
+
 import { useTopSellingProducts } from "@/hooks/useTopSellingProducts";
 import { useCategories } from "@/hooks/useCategories";
-import CategoriesGrid from "@/components/molecules/CategoriesGrid";
+import { useLatestProducts } from "@/hooks/useLatestProducts";
+import LatestProductsGrid from "@/components/molecules/LatestProductsGrid";
 
 export default function Home() {
   const {
@@ -20,28 +23,29 @@ export default function Home() {
     errorMsg: categoriesError,
   } = useCategories();
 
+  const {
+    latestProducts,
+    loading: latestLoading,
+    errorMsg: latestError,
+  } = useLatestProducts();
+
   return (
     <div>
       <Carousel />
 
-      {/* Top Sales section */}
-      {productsLoading ? (
-        <p>Cargando productos...</p>
-      ) : productsError ? (
-        <p style={{ color: "red" }}>{productsError}</p>
-      ) : topSellingProducts.length === 0 ? (
-        <p>No hay productos destacados disponibles.</p>
-      ) : (
+      {/* Top Sales */}
+      {!productsLoading && !productsError && topSellingProducts.length > 0 && (
         <TopSales title="Top Sales" products={topSellingProducts} />
       )}
 
-      {/* Categories section */}
-      {categoriesLoading ? (
-        <p>Cargando categorías...</p>
-      ) : categoriesError ? (
-        <p className="text-red-500">{categoriesError}</p>
-      ) : (
+      {/* Categories */}
+      {!categoriesLoading && !categoriesError && categories.length > 0 && (
         <CategoriesGrid title="Categorías" categories={categories} />
+      )}
+
+      {/* Latest Products */}
+      {!latestLoading && !latestError && latestProducts.length > 0 && (
+        <LatestProductsGrid title="Lo último" products={latestProducts} />
       )}
 
       <Offers />
