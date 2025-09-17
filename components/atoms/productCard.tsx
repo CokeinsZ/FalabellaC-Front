@@ -1,5 +1,15 @@
 import Image from "next/image";
-import { ProductCardDTO } from "./productCard.type";
+
+export interface ProductCardDTO {
+  id: number | string;
+  name: string;
+  brand?: string;
+  price: number;
+  oldPrice?: number;
+  discount?: string;
+  rating?: number;
+  img: string;
+}
 
 export default function ProductCard({
   id,
@@ -17,6 +27,7 @@ export default function ProductCard({
       className="border rounded-2xl p-4 flex flex-col items-center bg-white hover:shadow-lg transition-all duration-200 cursor-pointer"
     >
       {/* Imagen */}
+      
       <div className="w-36 h-36 relative mb-3">
         <Image src={img} alt={name} fill className="object-contain" />
       </div>
