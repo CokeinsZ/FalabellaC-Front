@@ -1,5 +1,6 @@
 // src/components/molecules/LatestProductsGrid.tsx
 import Image from "next/image";
+import Link from "next/link";
 import { LatestProductDTO } from "@/hooks/useLatestProducts";
 
 interface Props {
@@ -13,9 +14,10 @@ export default function LatestProductsGrid({ title, products }: Props) {
       <h2 className="text-2xl font-semibold mb-6">{title}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
         {products.map((p) => (
-          <div
+          <Link
             key={p.id}
-            className="bg-white rounded-lg shadow hover:shadow-lg transition p-4"
+            href={`/products/${p.id}`}
+            className="bg-white rounded-lg shadow hover:shadow-xl hover:scale-105 hover:border hover:border-gray-200"
           >
             {p.img && (
               <Image
@@ -31,7 +33,7 @@ export default function LatestProductsGrid({ title, products }: Props) {
             <p className="mt-1 text-green-600 font-semibold">
               ${p.precio.toLocaleString()}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
