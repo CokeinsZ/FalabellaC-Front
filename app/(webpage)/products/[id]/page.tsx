@@ -17,7 +17,7 @@ interface ImagenProducto {
 }
 
 interface PageProps {
-  params: { id: string }; // ✅ directo, no Promise
+  params: Promise<{ id: string }>;
 }
 
 export default function Page({ params }: PageProps) {
@@ -55,16 +55,22 @@ export default function Page({ params }: PageProps) {
       setImagenesProducto(data || []);
     }
   };
+  const extractId = async () => {
+    const resolvedParams = await params;
+    return resolvedParams.id;
+  }
 
   useEffect(() => {
+
     const loadData = async () => {
+      const id = await extractId();
       setLoading(true);
-      await fetchProducto(params.id);
-      await fetchImagenes(params.id);
+      await fetchProducto(id);
+      await fetchImagenes(id);
       setLoading(false);
     };
     loadData();
-  }, [params.id]);
+  }, []);
 
   if (loading) return <p>Cargando producto...</p>;
   if (errorMsg) return <p className="text-red-500">Error: {errorMsg}</p>;
