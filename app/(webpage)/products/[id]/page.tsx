@@ -1,9 +1,11 @@
 import ProductDetail from "@/components/molecules/ProductDetails";
+import { use } from "react";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default function Page({ params }: PageProps) {
-  return <ProductDetail id={params.id} />;
+  const { id } = use(params);
+  return <ProductDetail id={id} />;
 }

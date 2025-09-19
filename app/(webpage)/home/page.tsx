@@ -1,8 +1,8 @@
 "use client";
 
-import Carousel from "@/components/organisms/Carousel";
+import Carousel from "@/components/organisms/carousel";
 import Offers from "@/components/organisms/Offers";
-import TopSales from "@/components/molecules/TopSales";
+import TopSales from "@/components/molecules/topSales";
 import CategoriesGrid from "@/components/molecules/CategoriesGrid";
 import LatestProductsGrid from "@/components/molecules/LatestProductsGrid";
 

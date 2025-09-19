@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { storeImageDTO } from "@/hooks/useStoreImages";
@@ -34,22 +34,30 @@ function Carousel({ title, images }: storeImageProps) {
     <div
       ref={containerRef}
       className="relative w-full h-64 md:h-96 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg"
+      aria-label={title || "Carousel"}
     >
       {/* Images */}
       <div
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
-        {images.map((src, idx) => (
-          <Image
-            key={idx}
-            src={src.img}
-            alt={`Slide ${idx}`}
-            width={1200}
-            height={600}
-            className="w-full object-cover"
-          />
-        ))}
+        {images.map((src, idx) => {
+          return (
+            <div
+              key={idx}
+              className="relative w-full h-64 md:h-96 flex-shrink-0 bg-gray-100"
+            >
+              <Image
+                src={src.img}
+                alt={`Slide ${idx}`}
+                fill
+                className="object-contain"
+                sizes="auto"
+                priority={idx === 0}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* Buttons */}
@@ -68,15 +76,17 @@ function Carousel({ title, images }: storeImageProps) {
 
       {/* Indicators */}
       <div className="absolute bottom-4 flex w-full justify-center space-x-2">
-        {images.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrent(idx)}
-            className={`h-3 w-3 rounded-full ${
-              current === idx ? "bg-yellow-400" : "bg-gray-400"
-            }`}
-          />
-        ))}
+        {images.map((_, idx) =>  {
+          return (
+            <button
+              key={idx}
+              onClick={() => setCurrent(idx)}
+              className={`h-3 w-3 rounded-full ${
+                current === idx ? "bg-yellow-400" : "bg-gray-400"
+              }`}
+            />
+          );
+        })}
       </div>
     </div>
   );

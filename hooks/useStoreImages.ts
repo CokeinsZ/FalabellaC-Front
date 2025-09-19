@@ -23,7 +23,6 @@ export function useStoreImages() {
         .select("id, nombre, imagen");
 
       if (error) throw error;
-      console.log("DATA:", data, "ERROR:", error);
       const mapped: storeImageDTO[] =
         data?.map((c) => ({
           id: c.id,

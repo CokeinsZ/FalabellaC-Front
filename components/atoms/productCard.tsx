@@ -29,7 +29,7 @@ export default function ProductCard({
       {/* Imagen */}
       
       <div className="w-36 h-36 relative mb-3">
-        <Image src={img} alt={name} fill className="object-contain" />
+        <Image src={img} alt={name} fill className="object-contain" sizes="auto" />
       </div>
 
       {/* Marca */}

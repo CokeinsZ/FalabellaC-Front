@@ -8,7 +8,7 @@ export default function Offers() {
       discount: "62% DCTO.",
       price: "$1.249.900",
       normal: "$3.249.900",
-      img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-max-finish-select-202309-6-1inch-blue-titanium?wid=512&hei=512&fmt=jpeg&qlt=90&.v=1693009274451",
+      img: "https://media.falabella.com/falabellaCO/73147715_1/w=800,h=800,fit=pad",
       brand: "ASUS",
     },
     {
@@ -16,7 +16,7 @@ export default function Offers() {
       title: "Perfumería",
       discount: "60% DCTO.",
       price: "Productos seleccionados",
-      img: "https://falabella.scene7.com/is/image/FalabellaCO/12345678_1",
+      img: "https://media.falabella.com.co/falabellaCO/3941400_1/width=480,height=480,quality=70,format=webp,fit=pad",
       brand: "Versace",
     },
     {
@@ -24,7 +24,7 @@ export default function Offers() {
       title: "Desigual",
       discount: "50% DCTO.",
       price: "Productos seleccionados",
-      img: "https://falabella.scene7.com/is/image/FalabellaCO/987654321_1",
+      img: "https://media.falabella.com.co/falabellaCO/73244443_1/width=480,height=480,quality=70,format=webp,fit=pad",
       brand: "Desigual",
     },
   ];
