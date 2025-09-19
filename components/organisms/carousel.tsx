@@ -10,6 +10,7 @@ const images = [
   "https://images.unsplash.com/photo-1503602642458-232111445657?w=1200",
 ];
 
+
 function Carousel() {
   const [current, setCurrent] = useState(0);
 
