@@ -1,4 +1,5 @@
 import { CategoryDTO } from "@/hooks/useCategories";
+import { CategoriesGridToken } from "../atoms/Token";
 
 interface CategoriesGridProps {
   title: string;
@@ -10,21 +11,21 @@ export default function CategoriesGrid({
   categories,
 }: CategoriesGridProps) {
   return (
-    <section className="px-8 py-10">
-      <h2 className="text-2xl font-semibold mb-6">{title}</h2>
+    <section className={CategoriesGridToken.section}>
+      <h2 className={CategoriesGridToken.title}>{title}</h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+      <div className={CategoriesGridToken.grid}>
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className="flex flex-col items-center bg-white shadow-md rounded-lg p-4"
+            className={CategoriesGridToken.card}
           >
             <img
               src={cat.img}
               alt={cat.name}
-              className="w-24 h-24 object-cover rounded-full mb-4"
+              className={CategoriesGridToken.image}
             />
-            <p className="text-center text-lg font-medium">{cat.name}</p>
+            <p className={CategoriesGridToken.name}>{cat.name}</p>
           </div>
         ))}
       </div>

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LatestProductDTO } from "@/hooks/useLatestProducts";
+import { LatestProductsGridToken } from "../atoms/Token";
 
 interface Props {
   title: string;
@@ -10,14 +11,14 @@ interface Props {
 
 export default function LatestProductsGrid({ title, products }: Props) {
   return (
-    <section className="px-8 py-10">
-      <h2 className="text-2xl font-semibold mb-6">{title}</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
+    <section className={LatestProductsGridToken.section}>
+      <h2 className={LatestProductsGridToken.title}>{title}</h2>
+      <div className={LatestProductsGridToken.grid}>
         {products.map((p) => (
           <Link
             key={p.id}
             href={`/products/${p.id}`}
-            className="bg-white rounded-lg shadow hover:shadow-xl hover:scale-105 hover:border hover:border-gray-200"
+            className={LatestProductsGridToken.card}
           >
             {p.img && (
               <Image
@@ -25,12 +26,12 @@ export default function LatestProductsGrid({ title, products }: Props) {
                 alt={p.nombre}
                 width={300}
                 height={200}
-                className="rounded-md object-cover w-full h-40"
+                className={LatestProductsGridToken.image}
               />
             )}
-            <h3 className="mt-3 font-medium text-gray-800">{p.nombre}</h3>
-            <p className="text-sm text-gray-500">{p.marca}</p>
-            <p className="mt-1 text-green-600 font-semibold">
+            <h3 className={LatestProductsGridToken.name}>{p.nombre}</h3>
+            <p className={LatestProductsGridToken.brand}>{p.marca}</p>
+            <p className={LatestProductsGridToken.price}>
               ${p.precio.toLocaleString()}
             </p>
           </Link>
