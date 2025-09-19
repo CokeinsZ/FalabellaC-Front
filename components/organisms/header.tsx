@@ -1,36 +1,27 @@
-import LogoGroup from "../molecules/LogoGroup";
-import SearchBar from "../molecules/SearchBar";
-import UserMenu from "../molecules/UserMenu";
+"use client";
+import React , {useState} from "react";
+import { Search, ShoppingCart, Heart, Menu } from "lucide-react";
+import Image from "next/image";
 import LocationBar from "../molecules/LocationBar";
-<<<<<<< HEAD
-=======
 import Login from "./Login";
 import { HeaderToken } from "../atoms/Token";
->>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e
+import PromoBar from "../atoms/PromoBar";
 
-interface HeaderProps {
-  topLogos: { src: string; alt: string; width?: number; height?: number }[];
-  mainLogo: { src: string; alt: string; width?: number; height?: number };
-  searchIcon: string;
-  userMenu: { label?: string; iconSrc?: string; href?: string }[];
-  location: { iconSrc: string; text: string; rightLinks?: { label: string; href?: string }[] };
-}
+export default function Header() {
 
-export default function Header({ topLogos, mainLogo, searchIcon, userMenu, location }: HeaderProps) {
+   const [isLoginOpen, setIsLoginOpen] = useState(false);
+   const location = {
+    iconSrc:
+      "https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg",
+    text: "Ingresa tu ubicación",
+    rightLinks: [
+      { label: "Vende en falabella.com" },
+      { label: "Tarjetas y cuentas" },
+      { label: "Novios" },
+      { label: "Ayuda" },
+    ],
+  };
   return (
-<<<<<<< HEAD
-    <header className="border-b border-gray-200 shadow-sm">
-      {/* top logos */}
-      <div className="px-6 py-2 border-b flex justify-start">
-        <LogoGroup logos={topLogos} />
-      </div>
-
-      {/* main bar */}
-      <div className="flex items-center justify-between px-6 py-3">
-        <LogoGroup logos={[mainLogo]} />
-        <div className="flex w-1/2 items-center">
-          <SearchBar placeholder="Buscar en falabella.com" iconSrc={searchIcon} />
-=======
     <header className={HeaderToken.container}>
       {/* Barra superior con logos */}
       <div className={HeaderToken.topBar}>
@@ -89,12 +80,13 @@ export default function Header({ topLogos, mainLogo, searchIcon, userMenu, locat
         {/* Menú y buscador */}
         <div className={HeaderToken.menuWrapper}>
           <button
-              aria-label="Abrir menú"
-              className="p-2 rounded-md hover:bg-gray-100 transition"
-            >
-              <Menu size={20} />
-              Menu
-            </button>
+            aria-label="Abrir menú"
+            className={HeaderToken.menuButton}
+            type="button"
+          >
+            <Menu size={20} />
+            <span className="ml-2 hidden md:inline">Menú</span>
+          </button>
           <div className={HeaderToken.searchWrapper}>
             <input
               type="text"
@@ -123,13 +115,16 @@ export default function Header({ topLogos, mainLogo, searchIcon, userMenu, locat
               0
             </span>
           </div>
->>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e
         </div>
-        <UserMenu items={userMenu} />
       </div>
 
-      {/* location bar */}
       <LocationBar {...location} />
+      <PromoBar />
+
+        {isLoginOpen && (
+        <Login  isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      )}
+
     </header>
   );
 }

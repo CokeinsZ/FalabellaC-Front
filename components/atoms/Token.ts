@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-export const SearchInputToken = "w-full rounded-full border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-=======
 //atomos
 export const CategoriesCardToken = {
   container:
@@ -132,20 +129,21 @@ export const CarouselToken = {
 };
 
 export const HeaderToken = {
-  container: "w-full bg-white shadow-md",
+  container: "w-full bg-white z-50",
 
-  topBar: "flex items-center py-1px ml-auto mr-12 space-x-4",
-
+  topBar: "flex items-center py-1px ml-auto mr-11 space-x-4",
+topLinks: "hidden md:flex items-center gap-6 text-gray-600",
   mainBar: "flex items-center justify-between px-6 py-3",
 
   logoWrapper: "w-32 h-8 bg-gray-50 flex items-center justify-center text-sm text-gray-500",
 
   menuWrapper: "flex items-center space-x-4 flex-1 max-w-3xl mx-6",
-  menuButton: "p-2 rounded-md hover:bg-gray-100 transition",
+  menuButton: "inline-flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-50 focus:outline-none",
 
   searchWrapper: "flex items-center w-full border rounded-full overflow-hidden",
-  searchInput: "flex-1 px-4 py-2 outline-none",
-  searchButton: "px-3 bg-gray-100",
+  searchInput: "flex-1 px-4 py-2 text-sm placeholder-gray-500 outline-none",
+  searchButton:
+    "flex items-center justify-center px-4 py-2 rounded-r-full bg-[#83c341] hover:bg-[#6fb02a] text-white focus:outline-none",
 
   actionsWrapper: "flex items-center space-x-6",
   loginButton: "text-sm",
@@ -238,4 +236,3 @@ export const RegistroToken = {
 //ui
 
 
->>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e

@@ -11,12 +11,7 @@ interface storeImageProps {
   images: storeImageDTO[];
 }
 
-<<<<<<< HEAD
-
-function Carousel() {
-=======
 function Carousel({ title, images }: storeImageProps) {
->>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e
   const [current, setCurrent] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
