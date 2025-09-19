@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 import { SignDTO } from "@/interfaces/Sign";
 import { signScheme } from "@/schemas/Sign";
-import { RegistroToken } from "../atoms/Token";
+import { RegistroToken } from "../../utils/Token";
 import InputComponents from "../atoms/InputComponents";
 
 export default function SignForm() {

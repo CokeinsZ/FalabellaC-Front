@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LatestProductDTO } from "@/hooks/useLatestProducts";
-import { LatestProductsGridToken } from "../atoms/Token";
+import { LatestProductsGridToken } from "../../utils/Token";
 
 interface Props {
   title: string;

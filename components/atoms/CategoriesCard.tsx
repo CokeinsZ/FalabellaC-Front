@@ -1,5 +1,5 @@
 // components/atoms/CategoriesCard.tsx
-import { CategoriesCardToken } from "./Token";
+import { CategoriesCardToken } from "../../utils/Token";
 interface CategoriesCardDTO {
   id: number;
   name: string;

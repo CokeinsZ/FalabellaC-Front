@@ -1,5 +1,5 @@
 import { CategoryDTO } from "@/hooks/useCategories";
-import { CategoriesGridToken } from "../atoms/Token";
+import { CategoriesGridToken } from "../../utils/Token";
 
 interface CategoriesGridProps {
   title: string;

@@ -1,5 +1,5 @@
 import Icon from "./Icon";
-import { SearchInputToken } from "./Token";
+import { SearchInputToken } from "../../utils/Token";
 
 interface SearchInputProps {
   placeholder: string;

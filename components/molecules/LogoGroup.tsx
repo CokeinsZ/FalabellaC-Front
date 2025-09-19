@@ -1,5 +1,5 @@
 import Logo from "../atoms/Logo";
-import { LogoGroupToken } from "../atoms/Token";
+import { LogoGroupToken } from "../../utils/Token";
 
 
 interface LogoGroupProps {

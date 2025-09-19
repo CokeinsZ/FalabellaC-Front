@@ -1,4 +1,4 @@
-import { TextLinkToken } from "./Token";
+import { TextLinkToken } from "../../utils/Token";
 interface TextLinkProps {
   label: string;
   href?: string;

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useProductDetail } from "@/hooks/useProductDetail";
-import { ProductDetailToken } from "../atoms/Token";
+import { ProductDetailToken } from "../../utils/Token";
 
 interface Props {
   id: string;

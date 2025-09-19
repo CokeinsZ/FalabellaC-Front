@@ -1,6 +1,6 @@
 import ProductCard from "@/components/atoms/productCard";
 import Link from "next/link";
-import { TopSalesToken } from "../atoms/Token";
+import { TopSalesToken } from "../../utils/Token";
 
 export interface ProductCardDTO {
   id: number | string;

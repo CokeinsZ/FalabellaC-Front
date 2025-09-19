@@ -1,5 +1,5 @@
 import Icon from "../atoms/Icon";
-import { LocationBarToken } from "../atoms/Token";
+import { LocationBarToken } from "../../utils/Token";
 
 interface LocationBarProps {
   iconSrc: string;

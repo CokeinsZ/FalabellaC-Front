@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { storeImageDTO } from "@/hooks/useStoreImages";
-import { CarouselToken } from "../atoms/Token";
+import { CarouselToken } from "../../utils/Token";
 
 interface storeImageProps {
   title: string;

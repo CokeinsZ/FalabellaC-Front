@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import InputComponents from "../atoms/InputComponents";
 import { loginScheme } from "@/schemas/login";
 import { LoginDTO } from "@/interfaces/login";
-import { LoginToken } from "../atoms/Token";
+import { LoginToken } from "../../utils/Token";
 
 interface LoginProps {
   isOpen: boolean;

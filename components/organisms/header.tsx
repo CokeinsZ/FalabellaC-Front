@@ -4,7 +4,7 @@ import { Search, ShoppingCart, Heart, Menu } from "lucide-react";
 import Image from "next/image";
 import LocationBar from "../molecules/LocationBar";
 import Login from "./Login";
-import { HeaderToken } from "../atoms/Token";
+import { HeaderToken } from "../../utils/Token";
 import PromoBar from "../atoms/PromoBar";
 
 export default function Header() {

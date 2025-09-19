@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ProductCardToken } from "./Token";
+import { ProductCardToken } from "../../utils/Token";
 
 export interface ProductCardDTO {
   id: number | string;

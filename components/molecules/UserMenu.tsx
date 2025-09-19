@@ -1,5 +1,5 @@
 import Icon from "../atoms/Icon";
-import { UserMenuToken } from "../atoms/Token";
+import { UserMenuToken } from "../../utils/Token";
 
 interface UserMenuProps {
   items: { label?: string; iconSrc?: string; href?: string }[];

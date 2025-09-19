@@ -2,7 +2,7 @@ import LogoGroup from "../molecules/LogoGroup";
 import SearchBar from "../molecules/SearchBar";
 import UserMenu from "../molecules/UserMenu";
 import LocationBar from "../molecules/LocationBar";
-import { OldHeaderToken } from "../atoms/Token";
+import { OldHeaderToken } from "../../utils/Token";
 
 interface HeaderProps {
   topLogos: { src: string; alt: string; width?: number; height?: number }[];

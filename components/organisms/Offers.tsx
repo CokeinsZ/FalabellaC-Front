@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { OffersToken } from "../atoms/Token";
+import { OffersToken } from "../../utils/Token";
 
 export default function Offers() {
   const offers = [
