@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { storeImageDTO } from "@/hooks/useStoreImages";
+import { CarouselToken } from "../atoms/Token";
 
-const images = [
-  "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200",
-  "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1200",
-  "https://images.unsplash.com/photo-1512499617640-c2f999098c01?w=1200",
-  "https://images.unsplash.com/photo-1503602642458-232111445657?w=1200",
-];
+interface storeImageProps {
+  title: string;
+  images: storeImageDTO[];
+}
 
+<<<<<<< HEAD
 
 function Carousel() {
+=======
+function Carousel({ title, images }: storeImageProps) {
+>>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e
   const [current, setCurrent] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const prevSlide = () => {
     setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -22,48 +28,73 @@ function Carousel() {
     setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
+  if (!images || images.length === 0) {
+    return (
+      <div className={CarouselToken.empty}>
+        <p className={CarouselToken.emptyText}>No hay imágenes disponibles</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative w-100% h-50 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg">
+    <div
+      ref={containerRef}
+      className={CarouselToken.container}
+      aria-label={title || "Carousel"}
+    >
       {/* Images */}
       <div
-        className="flex transition-transform ease-out duration-500"
+        className={CarouselToken.imagesWrapper}
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
-        {images.map((src, idx) => (
-          <img
-            key={idx}
-            src={src}
-            alt={`Slide ${idx}`}
-            className="w-full object-cover"
-          />
-        ))}
+        {images.map((src, idx) => {
+          return (
+            <div
+              key={idx}
+              className={CarouselToken.imageItem}
+            >
+              <Image
+                src={src.img}
+                alt={`Slide ${idx}`}
+                fill
+                className={CarouselToken.image}
+                sizes="auto"
+                priority={idx === 0}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* Buttons */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black"
+        className={`${CarouselToken.buttonBase} ${CarouselToken.buttonLeft}`}
       >
         <ChevronLeft />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black"
+        className={`${CarouselToken.buttonBase} ${CarouselToken.buttonRight}`}
       >
         <ChevronRight />
       </button>
 
       {/* Indicators */}
-      <div className="absolute bottom-4 flex w-full justify-center space-x-2">
-        {images.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrent(idx)}
-            className={`h-3 w-3 rounded-full ${
-              current === idx ? "bg-yellow-400" : "bg-gray-400"
-            }`}
-          />
-        ))}
+      <div className={CarouselToken.indicators}>
+        {images.map((_, idx) =>  {
+          return (
+            <button
+              key={idx}
+              onClick={() => setCurrent(idx)}
+              className={`${CarouselToken.indicatorBase} ${
+              current === idx
+                ? CarouselToken.indicatorActive
+                : CarouselToken.indicatorInactive
+              }`}
+            />
+          );
+        })}
       </div>
     </div>
   );

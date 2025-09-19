@@ -1,5 +1,16 @@
 import Image from "next/image";
-import { ProductCardDTO } from "./productCard.type";
+import { ProductCardToken } from "./Token";
+
+export interface ProductCardDTO {
+  id: number | string;
+  name: string;
+  brand?: string;
+  price: number;
+  oldPrice?: number;
+  discount?: string;
+  rating?: number;
+  img: string;
+}
 
 export default function ProductCard({
   id,
@@ -14,26 +25,27 @@ export default function ProductCard({
   return (
     <div
       key={id}
-      className="border rounded-2xl p-4 flex flex-col items-center bg-white hover:shadow-lg transition-all duration-200 cursor-pointer"
+      className={ProductCardToken.container}
     >
       {/* Imagen */}
-      <div className="w-36 h-36 relative mb-3">
-        <Image src={img} alt={name} fill className="object-contain" />
+      
+      <div className={ProductCardToken.imageWrapper}>
+        <Image src={img} alt={name} fill className={ProductCardToken.image} sizes="auto" />
       </div>
 
       {/* Marca */}
-      {brand && <h3 className="text-xs text-gray-500">{brand}</h3>}
+      {brand && <h3 className={ProductCardToken.brand}>{brand}</h3>}
 
       {/* Nombre */}
-      <p className="text-sm font-medium text-center line-clamp-2">{name}</p>
+      <p className={ProductCardToken.name}>{name}</p>
 
       {/* Precios */}
-      <div className="mt-2 text-center">
-        <span className="text-red-600 font-bold block">
+      <div className={ProductCardToken.pricesWrapper}>
+        <span className={ProductCardToken.price}>
           ${price.toLocaleString("es-CO")}
         </span>
         {oldPrice && (
-          <span className="text-gray-400 line-through text-xs">
+          <span className={ProductCardToken.oldPrice}>
             ${oldPrice.toLocaleString("es-CO")}
           </span>
         )}
@@ -41,16 +53,16 @@ export default function ProductCard({
 
       {/* Descuento */}
       {discount && (
-        <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded mt-1">
+        <span className={ProductCardToken.discount}>
           {discount}
         </span>
       )}
 
       {/* Rating */}
       {rating && (
-        <div className="flex items-center mt-2">
-          <span className="text-yellow-400">★</span>
-          <span className="text-xs ml-1">{rating}</span>
+        <div className={ProductCardToken.ratingWrapper}>
+          <span className={ProductCardToken.star}>★</span>
+          <span className={ProductCardToken.rating}>{rating}</span>
         </div>
       )}
     </div>

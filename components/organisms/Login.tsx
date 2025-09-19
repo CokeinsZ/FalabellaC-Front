@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +10,7 @@ import Cookies from "js-cookie";
 import InputComponents from "../atoms/InputComponents";
 import { loginScheme } from "@/schemas/login";
 import { LoginDTO } from "@/interfaces/login";
+import { LoginToken } from "../atoms/Token";
 
 interface LoginProps {
   isOpen: boolean;
@@ -16,8 +18,6 @@ interface LoginProps {
 }
 
 export default function Login({ isOpen, onClose }: LoginProps) {
-  if (!isOpen) return null;
-
   const {
     register,
     handleSubmit,
@@ -28,6 +28,8 @@ export default function Login({ isOpen, onClose }: LoginProps) {
 
   const [mensaje, setMensaje] = React.useState("");
 
+  if (!isOpen) return null;
+
   const onSubmit: SubmitHandler<LoginDTO> = async (data) => {
     const { user, password } = data;
 
@@ -37,7 +39,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
     });
 
     if (error) {
-      setMensaje("❌ Error: " + error.message);
+      setMensaje("Error: " + error.message);
       return;
     }
 
@@ -49,26 +51,40 @@ export default function Login({ isOpen, onClose }: LoginProps) {
       });
     }
 
-    setMensaje("✅ Iniciado sesión exitosamente.");
+    setMensaje("Iniciado sesión exitosamente.");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+    <div className={LoginToken.overlay}>
+      <div className={LoginToken.container}>
         {/* Botón cerrar */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className={LoginToken.closeButton}
         >
           ✕
         </button>
 
-        <h2 className="text-xl font-semibold mb-4">
+        <a
+          href="https://www.falabella.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
+            alt="Falabella"
+            width={100}
+            height={24}
+          />
+        </a>
+
+        <h2 className={LoginToken.title}>
           Inicia sesión para comprar
         </h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className={LoginToken.title} onSubmit={handleSubmit(onSubmit)}>
           {/* Email */}
           <div>
             <InputComponents
@@ -78,7 +94,7 @@ export default function Login({ isOpen, onClose }: LoginProps) {
               register={register("user")}
             />
             {errors.user && (
-              <p className="text-red-500 text-sm">{errors.user.message}</p>
+              <p className={LoginToken.inputError}>{errors.user.message}</p>
             )}
           </div>
 
@@ -91,25 +107,25 @@ export default function Login({ isOpen, onClose }: LoginProps) {
               register={register("password")}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
+              <p className={LoginToken.inputError}>{errors.password.message}</p>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
+            className={LoginToken.submit}
           >
             Ingresar
           </button>
         </form>
 
         {mensaje && (
-          <p className="text-sm text-center mt-4 text-gray-700">{mensaje}</p>
+          <p className={LoginToken.message}>{mensaje}</p>
         )}
 
-        <p className="text-sm text-center mt-4">
+        <p className={LoginToken.registerWrapper}>
           ¿Aún no tienes cuenta?{" "}
-          <a href="#" className="text-blue-600 underline">
+          <a href="/SignUp" className={LoginToken.registerLink}>
             Regístrate
           </a>
         </p>

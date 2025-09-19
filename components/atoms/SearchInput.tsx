@@ -1,5 +1,10 @@
 import Icon from "./Icon";
+<<<<<<< HEAD
 import {SearchInputToken} from "./Token";
+=======
+import { SearchInputToken } from "./Token";
+
+>>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e
 interface SearchInputProps {
   placeholder: string;
   iconSrc: string;
@@ -7,13 +12,17 @@ interface SearchInputProps {
 
 export default function SearchInput({ placeholder, iconSrc }: SearchInputProps) {
   return (
-    <div className="relative flex w-full items-center">
+    <div className={SearchInputToken.container}>
       <input
         type="text"
         placeholder={placeholder}
+<<<<<<< HEAD
         className= {SearchInputToken}
+=======
+        className={SearchInputToken.input}
+>>>>>>> 77f11344a11ea79e20b63bb5f6f541e914ac331e
       />
-      <div className="absolute right-2 flex h-7 w-7 items-center justify-center rounded-full bg-gray-800">
+      <div className={SearchInputToken.icon}>
         <Icon src={iconSrc} alt="search" size={16} className="invert" />
       </div>
     </div>

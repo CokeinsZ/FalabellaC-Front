@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { RegistroToken } from "../atoms/Token";
 
 export default function RegistroFalabella() {
   const [email, setEmail] = useState("");
@@ -29,83 +30,83 @@ export default function RegistroFalabella() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-xl p-10 w-full max-w-3xl grid md:grid-cols-2 gap-10">
+    <div className={RegistroToken.container}>
+      <div className={RegistroToken.card}>
         {/* Formulario */}
         <div>
-          <h2 className="text-xl font-semibold mb-2">
+          <h2 className={RegistroToken.title}>
             Inicia sesión o regístrate para comprar
           </h2>
-          <p className="text-gray-500 text-sm mb-6">
+          <p className={RegistroToken.subtitle}>
             Ingresa tus datos personales y disfruta de una experiencia de compra
             más rápida.
           </p>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className={RegistroToken.form} onSubmit={handleSubmit}>
             <div>
-              <label className="text-sm font-medium">Correo</label>
+              <label className={RegistroToken.label}>Correo</label>
               <input
                 type="email"
                 placeholder="Ingresa un correo"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border rounded-md p-2 mt-1"
+                className={RegistroToken.input}
                 required
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">Nombre</label>
+              <label className={RegistroToken.label}>Nombre</label>
               <input
                 type="text"
                 placeholder="Ingresa un nombre"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
-                className="w-full border rounded-md p-2 mt-1"
+                className={RegistroToken.input}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">Apellidos</label>
+              <label className={RegistroToken.label}>Apellidos</label>
               <input
                 type="text"
                 placeholder="Ingresa apellidos"
                 value={apellidos}
                 onChange={(e) => setApellidos(e.target.value)}
-                className="w-full border rounded-md p-2 mt-1"
+                className={RegistroToken.input}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">Contraseña</label>
+              <label className={RegistroToken.label}>Contraseña</label>
               <input
                 type="password"
                 placeholder="Ingresa una contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border rounded-md p-2 mt-1"
+                className={RegistroToken.input}
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-2 rounded-md mt-4 hover:bg-green-700"
+              className={RegistroToken.button}
             >
               Regístrate
             </button>
           </form>
 
           {mensaje && (
-            <p className="mt-4 text-center text-sm text-gray-700">{mensaje}</p>
+            <p className={RegistroToken.message}>{mensaje}</p>
           )}
         </div>
 
         {/* Beneficios */}
-        <div className="space-y-6">
+        <div className={RegistroToken.benefitsWrapper}>
           <div>
-            <h3 className="font-semibold">Beneficios falabella.com</h3>
-            <ul className="text-sm text-gray-600 space-y-2 mt-3">
+            <h3 className={RegistroToken.benefitsTitle}>Beneficios falabella.com</h3>
+            <ul className={RegistroToken.benefitsList}>
               <li>📦 Recibir notificaciones en tiempo real de tus pedidos.</li>
               <li>🧾 Revisar tus boletas online.</li>
               <li>⭐ Guardar medios de pago y direcciones favoritas.</li>
@@ -118,8 +119,8 @@ export default function RegistroFalabella() {
           </div>
 
           <div>
-            <h3 className="font-semibold">Beneficios CMR Puntos</h3>
-            <ul className="text-sm text-gray-600 space-y-2 mt-3">
+            <h3 className={RegistroToken.benefitsTitle}>Beneficios CMR Puntos</h3>
+            <ul className={RegistroToken.benefitsList}>
               <li>🎫 Canje de productos, experiencias, viajes y Gift Cards.</li>
               <li>💸 Promociones especiales, cupones de descuento y más.</li>
             </ul>
