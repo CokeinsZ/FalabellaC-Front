@@ -1,4 +1,5 @@
 import Icon from "../atoms/Icon";
+import { LocationBarToken } from "../../utils/Token";
 
 interface LocationBarProps {
   iconSrc: string;
@@ -8,14 +9,14 @@ interface LocationBarProps {
 
 export default function LocationBar({ iconSrc, text, rightLinks }: LocationBarProps) {
   return (
-    <div className="flex justify-between items-center px-6 py-2 text-sm text-gray-600 border-t">
-      <div className="flex items-center gap-2 cursor-pointer">
+    <div className={LocationBarToken.container}>
+      <div className={LocationBarToken.left}>
         <Icon src={iconSrc} alt="location" />
         <span>{text}</span>
       </div>
-      <div className="flex gap-4">
+      <div className={LocationBarToken.right}>
         {rightLinks?.map((link, idx) => (
-          <a key={idx} href={link.href ?? "#"} className="hover:underline">
+          <a key={idx} href={link.href ?? "#"} className={LocationBarToken.link}>
             {link.label}
           </a>
         ))}

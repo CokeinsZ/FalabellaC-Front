@@ -2,6 +2,7 @@ import LogoGroup from "../molecules/LogoGroup";
 import SearchBar from "../molecules/SearchBar";
 import UserMenu from "../molecules/UserMenu";
 import LocationBar from "../molecules/LocationBar";
+import { OldHeaderToken } from "../../utils/Token";
 
 interface HeaderProps {
   topLogos: { src: string; alt: string; width?: number; height?: number }[];
@@ -13,16 +14,16 @@ interface HeaderProps {
 
 export default function Header({ topLogos, mainLogo, searchIcon, userMenu, location }: HeaderProps) {
   return (
-    <header className="border-b border-gray-200 shadow-sm">
+    <header className={OldHeaderToken.container}>
       {/* top logos */}
-      <div className="px-6 py-2 border-b flex justify-start">
+      <div className={OldHeaderToken.topLogos}>
         <LogoGroup logos={topLogos} />
       </div>
 
       {/* main bar */}
-      <div className="flex items-center justify-between px-6 py-3">
+      <div className={OldHeaderToken.mainBar}>
         <LogoGroup logos={[mainLogo]} />
-        <div className="flex w-1/2 items-center">
+        <div className={OldHeaderToken.searchWrapper}>
           <SearchBar placeholder="Buscar en falabella.com" iconSrc={searchIcon} />
         </div>
         <UserMenu items={userMenu} />

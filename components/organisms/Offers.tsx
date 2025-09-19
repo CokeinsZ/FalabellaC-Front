@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { OffersToken } from "../../utils/Token";
 
 export default function Offers() {
   const offers = [
@@ -30,42 +31,42 @@ export default function Offers() {
   ];
 
   return (
-    <section className="px-8 py-12">
-      <h2 className="text-center text-3xl font-bold mb-8">
-        <span className="text-red-600">Solo x</span> pocas horas
+    <section className={OffersToken.section}>
+      <h2 className={OffersToken.title}>
+        <span className={OffersToken.highlight}>Solo x</span> pocas horas
       </h2>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className={OffersToken.grid}>
         {offers.map((offer) => (
           <div
             key={offer.id}
-            className="relative rounded-2xl overflow-hidden shadow-lg group hover:scale-105 transition-transform"
+            className={OffersToken.card}
           >
             {/* Image */}
-            <div className="relative h-64 w-full">
+            <div className={OffersToken.imageWrapper}>
               <Image
                 src={offer.img}
                 alt={offer.title}
                 fill
-                className="object-cover"
+                className={OffersToken.image}
               />
             </div>
 
             {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+            <div className={OffersToken.overlay}></div>
 
             {/* Content */}
-            <div className="absolute bottom-0 p-4 text-white">
-              <span className="bg-red-600 px-3 py-1 rounded-full font-bold text-lg">
+            <div className={OffersToken.overlay}>
+              <span className={OffersToken.discount}>
                 {offer.discount}
               </span>
-              <h3 className="mt-2 text-xl font-semibold">{offer.title}</h3>
-              <p className="text-sm">{offer.price}</p>
-              <p className="line-through opacity-80">{offer.normal}</p>
+              <h3 className={OffersToken.titleCard}>{offer.title}</h3>
+              <p className={OffersToken.price}>{offer.price}</p>
+              <p className={OffersToken.normal}>{offer.normal}</p>
             </div>
 
             {/* Brand on top */}
-            <div className="absolute top-3 left-3 bg-white px-3 py-1 text-black font-semibold rounded-md shadow">
+            <div className={OffersToken.brand}>
               {offer.brand}
             </div>
           </div>

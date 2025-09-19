@@ -1,3 +1,4 @@
+import { TextLinkToken } from "../../utils/Token";
 interface TextLinkProps {
   label: string;
   href?: string;
@@ -6,7 +7,7 @@ interface TextLinkProps {
 
 export default function TextLink({ label, href = "#", className }: TextLinkProps) {
   return (
-    <a href={href} className={`text-sm text-gray-700 hover:underline ${className}`}>
+    <a href={href} className={`${TextLinkToken.link}  ${className}`}>
       {label}
     </a>
   );

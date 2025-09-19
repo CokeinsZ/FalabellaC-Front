@@ -1,4 +1,6 @@
 import Logo from "../atoms/Logo";
+import { LogoGroupToken } from "../../utils/Token";
+
 
 interface LogoGroupProps {
   logos: { src: string; alt: string; width?: number; height?: number }[];
@@ -6,7 +8,7 @@ interface LogoGroupProps {
 
 export default function LogoGroup({ logos }: LogoGroupProps) {
   return (
-    <div className="flex items-center gap-6">
+    <div className={LogoGroupToken.container}>
       {logos.map((logo, idx) => (
         <Logo key={idx} {...logo} />
       ))}

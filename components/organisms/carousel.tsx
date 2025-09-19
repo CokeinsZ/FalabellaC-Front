@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { storeImageDTO } from "@/hooks/useStoreImages";
+import { CarouselToken } from "../../utils/Token";
 
 interface storeImageProps {
   title: string;
@@ -24,8 +25,8 @@ function Carousel({ title, images }: storeImageProps) {
 
   if (!images || images.length === 0) {
     return (
-      <div className="w-full max-w-6xl mx-auto h-64 flex items-center justify-center bg-gray-200 rounded-lg shadow">
-        <p className="text-gray-500">No hay imágenes disponibles</p>
+      <div className={CarouselToken.empty}>
+        <p className={CarouselToken.emptyText}>No hay imágenes disponibles</p>
       </div>
     );
   }
@@ -33,25 +34,25 @@ function Carousel({ title, images }: storeImageProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-64 md:h-96 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg"
+      className={CarouselToken.container}
       aria-label={title || "Carousel"}
     >
       {/* Images */}
       <div
-        className="flex transition-transform ease-out duration-500"
+        className={CarouselToken.imagesWrapper}
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((src, idx) => {
           return (
             <div
               key={idx}
-              className="relative w-full h-64 md:h-96 flex-shrink-0 bg-gray-100"
+              className={CarouselToken.imageItem}
             >
               <Image
                 src={src.img}
                 alt={`Slide ${idx}`}
                 fill
-                className="object-contain"
+                className={CarouselToken.image}
                 sizes="auto"
                 priority={idx === 0}
               />
@@ -63,26 +64,28 @@ function Carousel({ title, images }: storeImageProps) {
       {/* Buttons */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black"
+        className={`${CarouselToken.buttonBase} ${CarouselToken.buttonLeft}`}
       >
         <ChevronLeft />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black"
+        className={`${CarouselToken.buttonBase} ${CarouselToken.buttonRight}`}
       >
         <ChevronRight />
       </button>
 
       {/* Indicators */}
-      <div className="absolute bottom-4 flex w-full justify-center space-x-2">
+      <div className={CarouselToken.indicators}>
         {images.map((_, idx) =>  {
           return (
             <button
               key={idx}
               onClick={() => setCurrent(idx)}
-              className={`h-3 w-3 rounded-full ${
-                current === idx ? "bg-yellow-400" : "bg-gray-400"
+              className={`${CarouselToken.indicatorBase} ${
+              current === idx
+                ? CarouselToken.indicatorActive
+                : CarouselToken.indicatorInactive
               }`}
             />
           );

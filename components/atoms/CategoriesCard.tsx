@@ -1,4 +1,5 @@
 // components/atoms/CategoriesCard.tsx
+import { CategoriesCardToken } from "../../utils/Token";
 interface CategoriesCardDTO {
   id: number;
   name: string;
@@ -7,13 +8,13 @@ interface CategoriesCardDTO {
 
 export default function CategoriesCard({ id, name, img }: CategoriesCardDTO) {
   return (
-    <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow hover:shadow-md cursor-pointer transition">
+    <div className={CategoriesCardToken.container}>
       <img
         src={img}
         alt={name}
-        className="w-20 h-20 object-cover rounded-full mb-3"
+        className={CategoriesCardToken.image}
       />
-      <h3 className="text-sm font-medium text-gray-700">{name}</h3>
+      <h3 className={CategoriesCardToken.title}>{name}</h3>
     </div>
   );
 }
