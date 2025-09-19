@@ -68,29 +68,24 @@ export const ProductDetailToken = {
   container:
     "max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-lg shadow",
 
-  // Galería
   mainImage: "rounded-lg object-cover w-full h-96",
   thumbnails: "flex gap-3 mt-4",
   thumbnailImg:
     "rounded border object-cover w-20 h-20 cursor-pointer hover:scale-105 transition",
 
-  // Detalles
   title: "text-3xl font-bold mb-3",
   sku: "text-gray-500",
   rating: "flex items-center mt-2",
   stars: "text-yellow-400",
   ratingText: "ml-2 text-sm text-gray-500",
 
-  // Precio
   priceContainer: "mt-4",
   price: "text-green-600 text-2xl font-semibold",
 
-  // Especificaciones
   specsContainer: "mt-6 border-t pt-4",
   specsTitle: "font-semibold mb-2",
   specsList: "list-disc ml-6 text-gray-600",
 
-  // Botón
   button:
     "mt-6 w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition",
 };
@@ -132,7 +127,7 @@ export const HeaderToken = {
   container: "w-full bg-white z-50",
 
   topBar: "flex items-center py-1px ml-auto mr-11 space-x-4",
-topLinks: "hidden md:flex items-center gap-6 text-gray-600",
+  topLinks: "hidden md:flex items-center gap-6 text-gray-600",
   mainBar: "flex items-center justify-between px-6 py-3",
 
   logoWrapper: "w-32 h-8 bg-gray-50 flex items-center justify-center text-sm text-gray-500",
@@ -143,7 +138,7 @@ topLinks: "hidden md:flex items-center gap-6 text-gray-600",
   searchWrapper: "flex items-center w-full border rounded-full overflow-hidden",
   searchInput: "flex-1 px-4 py-2 text-sm placeholder-gray-500 outline-none",
   searchButton:
-    "flex items-center justify-center px-4 py-2 rounded-r-full bg-[#83c341] hover:bg-[#6fb02a] text-white focus:outline-none",
+    "flex items-center justify-center px-4 py-2 rounded-r-full bg-[#000000] text-white focus:outline-none",
 
   actionsWrapper: "flex items-center space-x-6",
   loginButton: "text-sm",
@@ -157,26 +152,19 @@ export const LoginToken = {
   overlay: "fixed inset-0 flex items-center justify-center bg-black/50 z-50",
   container: "bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative",
 
-  // Botón cerrar
   closeButton: "absolute top-2 right-2 text-gray-500 hover:text-gray-700",
 
-  // Logo
   logo: "mb-4 flex justify-center",
 
-  // Título
   title: "text-xl font-semibold mb-4 text-center",
 
-  // Formulario
   form: "space-y-4",
   inputError: "text-red-500 text-sm mt-1",
 
-  // Botón submit
   submit: "w-full bg-[#343e49] text-white py-2 rounded-md",
 
-  // Mensajes
   message: "text-sm text-center mt-4 text-gray-700",
 
-  // Registro
   registerWrapper: "text-sm text-center mt-4",
   registerLink: "text-black underline",
 };
@@ -217,7 +205,6 @@ export const RegistroToken = {
   container: "min-h-screen bg-gray-50 flex items-center justify-center",
   card: "bg-white shadow-lg rounded-xl p-10 w-full max-w-3xl grid md:grid-cols-2 gap-10",
 
-  // Formulario
   formWrapper: "",
   title: "text-xl font-semibold mb-2",
   subtitle: "text-gray-500 text-sm mb-6",
@@ -227,7 +214,6 @@ export const RegistroToken = {
   button: "w-full bg-green-600 text-white py-2 rounded-md mt-4 hover:bg-green-700",
   message: "mt-4 text-center text-sm text-gray-700",
 
-  // Beneficios
   benefitsWrapper: "space-y-6",
   benefitsTitle: "font-semibold",
   benefitsList: "text-sm text-gray-600 space-y-2 mt-3",
