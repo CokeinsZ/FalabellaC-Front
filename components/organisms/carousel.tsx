@@ -1,34 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { storeImageDTO } from "@/hooks/useStoreImages";
 
-const images = [
-  "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200",
-  "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1200",
-  "https://images.unsplash.com/photo-1512499617640-c2f999098c01?w=1200",
-  "https://images.unsplash.com/photo-1503602642458-232111445657?w=1200",
-];
+interface storeImageProps {
+  title: string;
+  images: storeImageDTO[];
+}
 
-function Carousel() {
+function Carousel({ title, images }: storeImageProps) {
   const [current, setCurrent] = useState(0);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const containerRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    function updateSize() {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight,
-        });
-      }
-    }
-    updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const prevSlide = () => {
     setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -38,22 +22,33 @@ function Carousel() {
     setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
+  if (!images || images.length === 0) {
+    return (
+      <div className="w-full max-w-6xl mx-auto h-64 flex items-center justify-center bg-gray-200 rounded-lg shadow">
+        <p className="text-gray-500">No hay imágenes disponibles</p>
+      </div>
+    );
+  }
+
   return (
-  <div ref={containerRef} className="relative w-100% h-50 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg">
+    <div
+      ref={containerRef}
+      className="relative w-full h-64 md:h-96 max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg"
+    >
       {/* Images */}
       <div
         className="flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((src, idx) => (
-            <Image
-              key={idx}
-              src={src}
-              alt={`Slide ${idx}`}
-              width={dimensions.width }
-              height={dimensions.height }
-              className="w-full object-cover"
-            />
+          <Image
+            key={idx}
+            src={src.img}
+            alt={`Slide ${idx}`}
+            width={1200}
+            height={600}
+            className="w-full object-cover"
+          />
         ))}
       </div>
 

@@ -1,14 +1,15 @@
 "use client";
 
-import Carousel from "@/components/organisms/carousel";
+import Carousel from "@/components/organisms/Carousel";
 import Offers from "@/components/organisms/Offers";
-import TopSales from "@/components/molecules/topSales";
+import TopSales from "@/components/molecules/TopSales";
 import CategoriesGrid from "@/components/molecules/CategoriesGrid";
+import LatestProductsGrid from "@/components/molecules/LatestProductsGrid";
 
 import { useTopSellingProducts } from "@/hooks/useTopSellingProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { useLatestProducts } from "@/hooks/useLatestProducts";
-import LatestProductsGrid from "@/components/molecules/LatestProductsGrid";
+import { useStoreImages } from "@/hooks/useStoreImages";
 
 export default function Home() {
   const {
@@ -29,22 +30,47 @@ export default function Home() {
     errorMsg: latestError,
   } = useLatestProducts();
 
+  const {
+    images,
+    loading: imagesLoading,
+    errorMsg: imagesError,
+  } = useStoreImages();
+
   return (
     <div>
-      <Carousel />
+      {/* Carousel */}
+      {imagesLoading ? (
+        <p>Cargando imágenes...</p>
+      ) : imagesError ? (
+        <p className="text-red-500">{imagesError}</p>
+      ) : (
+        <Carousel title="Carousel" images={images} />
+      )}
 
       {/* Top Sales */}
-      {!productsLoading && !productsError && topSellingProducts.length > 0 && (
+      {productsLoading ? (
+        <p>Cargando productos...</p>
+      ) : productsError ? (
+        <p className="text-red-500">{productsError}</p>
+      ) : (
         <TopSales title="Top Sales" products={topSellingProducts} />
       )}
 
       {/* Categories */}
-      {!categoriesLoading && !categoriesError && categories.length > 0 && (
+      {categoriesLoading ? (
+        <p>Cargando categorías...</p>
+      ) : categoriesError ? (
+        <p className="text-red-500">{categoriesError}</p>
+      ) : (
         <CategoriesGrid title="Categorías" categories={categories} />
       )}
 
       {/* Latest Products */}
-      {!latestLoading && !latestError && latestProducts.length > 0 && (
+      {latestLoading ? (
+        <p>Cargando lo último...</p>
+      ) : latestError ? (
+        <p className="text-red-500">{latestError}</p>
+      ) : (
         <LatestProductsGrid title="Lo último" products={latestProducts} />
       )}
 
