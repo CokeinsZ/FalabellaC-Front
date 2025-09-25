@@ -6,10 +6,17 @@ import LocationBar from "../molecules/LocationBar";
 import Login from "./Login";
 import { HeaderToken } from "../../utils/Token";
 import PromoBar from "../atoms/PromoBar";
+import Link from "next/link";
+import { useCart } from "@/libs/useCart";
+
 
 export default function Header() {
 
    const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+   const productos = useCart((state) => state.productos);
+   const totalItems = productos.reduce((acc, p) => acc + p.cantidad, 0);
+
    const location = {
     iconSrc:
       "https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg",
@@ -110,10 +117,10 @@ export default function Header() {
           <button className={HeaderToken.purchasesButton}>Mis compras</button>
           <Heart />
           <div className={HeaderToken.cartWrapper}>
-            <ShoppingCart />
-            <span className={HeaderToken.cartBadge}>
-              0
-            </span>
+            <Link href="/cart" className={HeaderToken.cartWrapper}>
+              <ShoppingCart />
+              <span className={HeaderToken.cartBadge}>{totalItems}</span>
+            </Link>
           </div>
         </div>
       </div>

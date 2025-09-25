@@ -1,6 +1,6 @@
 import { CategoryDTO } from "@/hooks/useCategories";
 import { CategoriesGridToken } from "../../utils/Token";
-
+import Image from "next/image";
 interface CategoriesGridProps {
   title: string;
   categories: CategoryDTO[];
@@ -25,6 +25,7 @@ export default function CategoriesGrid({
               alt={cat.name}
               className={CategoriesGridToken.image}
             />
+            <p className={CategoriesGridToken.name}>{cat.name.toUpperCase()}</p>
             <p className={CategoriesGridToken.name}>{cat.name}</p>
           </div>
         ))}

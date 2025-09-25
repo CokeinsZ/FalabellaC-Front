@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { useProductDetail } from "@/hooks/useProductDetail";
 import { ProductDetailToken } from "../../utils/Token";
-
+import { useCart } from "@/libs/useCart";
 interface Props {
   id: string;
 }
 
 export default function ProductDetail({ id }: Props) {
   const { producto, imagenes, loading, errorMsg } = useProductDetail(id);
+  const addProducto = useCart((s) => s.addProducto);
 
   if (loading) return <p>Cargando producto...</p>;
   if (errorMsg) return <p className="text-red-500">Error: {errorMsg}</p>;
@@ -74,7 +75,9 @@ export default function ProductDetail({ id }: Props) {
         </div>
 
         {/* 🛒 Botón */}
-        <button className={ProductDetailToken.button}>
+        <button className={ProductDetailToken.button}
+          onClick={() => addProducto(producto)}
+        >
           Agregar al Carro
         </button>
       </div>
