@@ -1,9 +1,8 @@
 "use client";
-
 import Image from "next/image";
 import { useProductDetail } from "@/hooks/useProductDetail";
 import { ProductDetailToken } from "../../utils/Token";
-import { useCart } from "@/libs/useCart";
+import { useCart } from "@/hooks/useCart";
 interface Props {
   id: string;
 }
@@ -76,7 +75,7 @@ export default function ProductDetail({ id }: Props) {
 
         {/* 🛒 Botón */}
         <button className={ProductDetailToken.button}
-          onClick={() => addProducto(producto)}
+          onClick={() => addProducto(producto,imagenes[0].url)}
         >
           Agregar al Carro
         </button>

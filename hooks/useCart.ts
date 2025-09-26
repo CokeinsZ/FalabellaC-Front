@@ -6,11 +6,12 @@ export interface Producto {
   nombre: string;
   precio: number;
   cantidad: number;
+  imagen?: string; 
 }
 
 interface CartState {
   productos: Producto[];
-  addProducto: (p: Omit<Producto, "cantidad">) => void;
+  addProducto: (p: Omit<Producto, "cantidad">, imagen : string) => void;
   removeProducto: (id: number) => void;
   updateCantidad: (id: number, cantidad: number) => void;
   clear: () => void;
@@ -20,7 +21,7 @@ export const useCart = create<CartState>()(
   persist(
     (set) => ({
       productos: [],
-      addProducto: (p) =>
+      addProducto: (p, imagen) =>
         set((state) => {
           const existente = state.productos.find((x) => x.id === p.id);
           if (existente) {
@@ -30,7 +31,7 @@ export const useCart = create<CartState>()(
               ),
             };
           }
-          return { productos: [...state.productos, { ...p, cantidad: 1 }] };
+          return { productos: [...state.productos, { ...p, cantidad: 1, imagen }] };
         }),
       removeProducto: (id) =>
         set((state) => ({

@@ -1,5 +1,6 @@
 // components/atoms/CategoriesCard.tsx
 import { CategoriesCardToken } from "../../utils/Token";
+import Image from "next/image";
 interface CategoriesCardDTO {
   id: number;
   name: string;
@@ -9,11 +10,12 @@ interface CategoriesCardDTO {
 export default function CategoriesCard({ id, name, img }: CategoriesCardDTO) {
   return (
     <div className={CategoriesCardToken.container}>
-      <img
+      <Image
         src={img}
         alt={name}
-        className={CategoriesCardToken.image}
-      />
+        width={100}
+        height={24}
+        className={CategoriesCardToken.image}/>
       <h3 className={CategoriesCardToken.title}>{name}</h3>
     </div>
   );

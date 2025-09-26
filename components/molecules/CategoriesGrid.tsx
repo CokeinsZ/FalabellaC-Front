@@ -20,9 +20,11 @@ export default function CategoriesGrid({
             key={cat.id}
             className={CategoriesGridToken.card}
           >
-            <img
+            <Image
               src={cat.img}
               alt={cat.name}
+              width={100}
+              height={24}
               className={CategoriesGridToken.image}
             />
             <p className={CategoriesGridToken.name}>{cat.name.toUpperCase()}</p>
