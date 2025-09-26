@@ -28,10 +28,8 @@ export default function Cart() {
     }
 
   const handleEliminar = (id: number) => {
-    if (confirm("¿Eliminar este producto del carrito?")) {
       removeProducto(id);
       setOpenMenuId(null);
-    }
   };
 
   const onChangeCantidad = (id: number, nueva: number) => {
@@ -131,7 +129,7 @@ export default function Cart() {
               <p className="text-gray-600">No hay productos en el carrito.</p>
             )
           ) : (
-            <p className="text-sm text-gray-500">Sección de productos oculta</p>
+            <p className="text-sm text-gray-500">Vendido por Falabella</p>
           )}
         </div>
 
@@ -155,7 +153,7 @@ export default function Cart() {
                     >
                       Mover al carrito
                     </button>
-                    <button onClick={() => setSaved((prev) => prev.filter((x) => x.id !== s.id))} className="text-sm text-red-600">
+                    <button onClick={() => setSaved((prev) => prev.filter((x) => x.id !== s.id))} className="text-sm">
                       Eliminar
                     </button>
                   </div>
