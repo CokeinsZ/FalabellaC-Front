@@ -28,8 +28,10 @@ export default function Cart() {
     }
 
   const handleEliminar = (id: number) => {
+    if (confirm("¿Eliminar este producto del carrito?")) {
       removeProducto(id);
       setOpenMenuId(null);
+    }
   };
 
   const onChangeCantidad = (id: number, nueva: number) => {
@@ -74,7 +76,7 @@ export default function Cart() {
                   </div>
 
                   <div className="flex flex-col items-end gap-3">
-                    <div className="font-semibold">${p.precio.toLocaleString()}</div>
+                    <div className="font-semibold">${ (Number(p.precio || 0) * Number(p.cantidad || 0)).toLocaleString() }</div>
 
                     <div className="flex items-center gap-2">
                       <button
@@ -129,7 +131,7 @@ export default function Cart() {
               <p className="text-gray-600">No hay productos en el carrito.</p>
             )
           ) : (
-            <p className="text-sm text-gray-500">Vendido por Falabella</p>
+            <p className="text-sm text-gray-500">Sección de productos oculta</p>
           )}
         </div>
 
@@ -153,7 +155,7 @@ export default function Cart() {
                     >
                       Mover al carrito
                     </button>
-                    <button onClick={() => setSaved((prev) => prev.filter((x) => x.id !== s.id))} className="text-sm">
+                    <button onClick={() => setSaved((prev) => prev.filter((x) => x.id !== s.id))} className="text-sm text-red-600">
                       Eliminar
                     </button>
                   </div>

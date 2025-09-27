@@ -41,7 +41,7 @@ export default function Header() {
             src= "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
             alt="Falabella"
             width={100}
-            height={24}
+            height={10}
           />
         </a>
 
@@ -54,7 +54,7 @@ export default function Header() {
             src = "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/bltccc5a7e27f9cab2f/6418aba238ab2c1b60a4bc29/logo-homecenter-our-stores.svg"
             alt="Homecenter"
             width={100}
-            height={24}
+            height={10}
           />
         </a>
 
@@ -67,7 +67,7 @@ export default function Header() {
             src= "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blta5a44443cc0e501c/63b6ff659233961262fbd64c/logo-linio.svg"
             alt="Linio"
             width={100}
-            height={24}
+            height={10}
           />
         </a>
       </div>
@@ -76,12 +76,15 @@ export default function Header() {
       <div className={HeaderToken.mainBar}>
         {/* Logo Falabella principal */}
         <div className={HeaderToken.logoWrapper}>
-          <Image
+          <Link href="/home">
+            <Image
             src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
             alt="Falabellla"
             width={120}
             height={40}
-          />
+            />
+          </Link>
+          
         </div>
 
         {/* Menú y buscador */}

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useProductDetail } from "@/hooks/useProductDetail";
 import { ProductDetailToken } from "../../utils/Token";
 import { useCart } from "@/hooks/useCart";
+import { useState } from "react";
 interface Props {
   id: string;
 }
@@ -10,7 +11,8 @@ interface Props {
 export default function ProductDetail({ id }: Props) {
   const { producto, imagenes, loading, errorMsg } = useProductDetail(id);
   const addProducto = useCart((s) => s.addProducto);
-
+  
+  const [cantidad, setCantidad] = useState(1);
   if (loading) return <p>Cargando producto...</p>;
   if (errorMsg) return <p className="text-red-500">Error: {errorMsg}</p>;
   if (!producto) return <p>No se encontró el producto.</p>;
@@ -73,9 +75,26 @@ export default function ProductDetail({ id }: Props) {
           </ul>
         </div>
 
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCantidad((prev) => Math.max(prev - 1, ))} 
+            className="w-10 h-10 flex items-center justify-center border rounded bg-gray-100 hover:bg-black hover:text-white transition"
+            aria-label="Restar cantidad"
+          >
+            −
+          </button>
+        <div className="px-3">{cantidad}</div>
+          <button
+            onClick={() => setCantidad((prev) => prev + 1)}
+            className="w-10 h-10 flex items-center justify-center border rounded bg-gray-100 hover:bg-black hover:text-white transition"
+            aria-label="Sumar cantidad"
+          >
+            +
+          </button>
+          </div>
         {/* 🛒 Botón */}
         <button className={ProductDetailToken.button}
-          onClick={() => addProducto(producto,imagenes[0].url)}
+          onClick={() => addProducto({...producto, cantidad : cantidad},imagenes[0].url)}
         >
           Agregar al Carro
         </button>

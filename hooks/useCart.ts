@@ -11,7 +11,7 @@ export interface Producto {
 
 interface CartState {
   productos: Producto[];
-  addProducto: (p: Omit<Producto, "cantidad">, imagen : string) => void;
+  addProducto: (p: Producto, imagen : string) => void;
   removeProducto: (id: number) => void;
   updateCantidad: (id: number, cantidad: number) => void;
   clear: () => void;
@@ -27,11 +27,10 @@ export const useCart = create<CartState>()(
           if (existente) {
             return {
               productos: state.productos.map((x) =>
-                x.id === p.id ? { ...x, cantidad: x.cantidad + 1 } : x
-              ),
+                x.id === p.id ? { ...x, cantidad: x.cantidad + 1 } : x     ),
             };
           }
-          return { productos: [...state.productos, { ...p, cantidad: 1, imagen }] };
+          return { productos: [...state.productos, { ...p, imagen }] };
         }),
       removeProducto: (id) =>
         set((state) => ({
