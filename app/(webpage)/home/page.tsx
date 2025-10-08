@@ -10,6 +10,7 @@ import { useTopSellingProducts } from "@/hooks/useTopSellingProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { useLatestProducts } from "@/hooks/useLatestProducts";
 import { useStoreImages } from "@/hooks/useStoreImages";
+import BotSection from "@/components/organisms/BotSection";
 
 export default function Home() {
   const {
@@ -75,6 +76,7 @@ export default function Home() {
       )}
 
       <Offers />
+      <BotSection />
     </div>
   );
 }

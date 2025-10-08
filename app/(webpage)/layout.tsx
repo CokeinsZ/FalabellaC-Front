@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/organisms/header";
 
+import FooterData from "@/components/organisms/FooterData";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,7 +26,7 @@ export default function webpageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >
@@ -33,7 +35,8 @@ export default function webpageLayout({
 
         {/* Main Content */}
         <main className="mx-auto max-w-6xl p-6">{children}</main>
+        <FooterData />
       </body>
-    </html>
+    </>
   );
 }
