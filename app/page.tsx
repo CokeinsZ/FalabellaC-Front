@@ -1,11 +1,8 @@
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 function page() {
-  return (
-    <div>
-      
-    </div>
-  )
+  redirect('/home')
 }
 
 export default page
