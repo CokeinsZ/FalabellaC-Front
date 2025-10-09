@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
 
   // rutas protegidas
   if (pathname.startsWith("/cart") && !isAuth) {
-    return NextResponse.redirect(new URL("/SignUp", req.url));
+    return NextResponse.next();
   }
 
   return NextResponse.next();
