@@ -22,6 +22,13 @@ export default function ProductDetail({ id }: Props) {
   if (errorMsg) return <p className="text-red-500 p-6">Error: {errorMsg}</p>;
   if (!producto) return <p className="p-6">No se encontró el producto.</p>;
 
+  // Parsear datos JSON
+  const informacionAdicional = producto.informacion_adicional 
+    ? (typeof producto.informacion_adicional === 'string' 
+        ? JSON.parse(producto.informacion_adicional) as Record<string, Record<string, unknown>>
+        : producto.informacion_adicional as Record<string, Record<string, unknown>>)
+    : null;
+
   // Generar estrellas según la calificación
   const generateStars = (rating: number) => {
     const fullStars = Math.floor(rating);
@@ -208,14 +215,14 @@ export default function ProductDetail({ id }: Props) {
         {/* 🪶 Columna derecha: Información adicional */}
         <div className="col-span-2 shadow">
           <div className="space-y-6">
-            {producto.informacion_adicional && Object.entries(producto.informacion_adicional).length > 0 ? (
-              Object.entries(producto.informacion_adicional).map(([k, v]) => (
+            {informacionAdicional && Object.entries(informacionAdicional).length > 0 ? (
+              Object.entries(informacionAdicional).map(([k, v]) => (
                 <div key={k}>
                   <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-1">{k}</h2>
                   {
-                    (v as any).tt === 'tabla'
+                    v.tt === 'tabla'
                       ? <Table content={v} />
-                    : (v as any).tt === 'info'
+                    : v.tt === 'info'
                       ? <InfoComponent content={v} />
                       : null
                   }

@@ -1,6 +1,6 @@
 
 interface Props {
-  content: string;
+  content: Record<string, unknown> | string;
 }
 
 export default function InfoComponent({ content }: Props) {
