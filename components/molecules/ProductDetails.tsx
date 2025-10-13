@@ -7,6 +7,7 @@ import { useCart } from "@/hooks/useCart";
 import { useState } from "react";
 import Table from "../atoms/Table";
 import InfoComponent from "../atoms/InfoComponent";
+import InfoImages from "../atoms/InfoImages";
 
 interface Props {
   id: string;
@@ -224,7 +225,9 @@ export default function ProductDetail({ id }: Props) {
                       ? <Table content={v} />
                     : v.tt === 'info'
                       ? <InfoComponent content={v} />
-                      : null
+                    : v.tt === 'imagen'
+                      ? <InfoImages content={v} />
+                    : null
                   }
                 </div>
               ))
