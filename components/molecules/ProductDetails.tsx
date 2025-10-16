@@ -70,7 +70,7 @@ export default function ProductDetail({ id }: Props) {
         <div className={ProductDetailToken.specsContainer}>
           <h2 className={ProductDetailToken.specsTitle}>Especificaciones principales</h2>
           <ul className={ProductDetailToken.specsList}>
-            <li>Tipo: Portátil</li>
+            <li>Producto: {producto.nombre}</li>
             <li>Material: Plástico, Tela</li>
           </ul>
         </div>

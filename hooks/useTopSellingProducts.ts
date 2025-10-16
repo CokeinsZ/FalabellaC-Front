@@ -17,7 +17,7 @@ const fetchProductosDestacados = async (): Promise<ProductoBase[]> => {
     .from("productos")
     .select("id, nombre, marca, precio, descuento")
     .eq("destacado", true)
-    .limit(5);
+    .limit(6);
 
   if (error) throw error;
   return data || [];
@@ -55,7 +55,7 @@ const mapToProducto = (
       oldPrice: p.precio,
       price: p.precio - p.precio * (p.descuento ? p.descuento : 0),
       discount: p.descuento ? `${p.descuento * 100}%` : "",
-      rating: Math.floor(Math.random() * 5) + 1, // placeholder
+      rating: Math.floor(Math.random() * 5) + 1, 
       img: imagenes[p.id] || "",
     };
   });
