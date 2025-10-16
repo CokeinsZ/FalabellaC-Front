@@ -77,7 +77,7 @@ export default function ProductDetail({ id }: Props) {
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setCantidad((prev) => Math.max(prev - 1, ))} 
+            onClick={() => setCantidad((prev) => Math.max(prev - 1, 1))} 
             className="w-10 h-10 flex items-center justify-center border rounded bg-gray-100 hover:bg-black hover:text-white transition"
             aria-label="Restar cantidad"
           >
