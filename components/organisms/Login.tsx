@@ -79,56 +79,58 @@ export default function Login({ isOpen, onClose }: LoginProps) {
             height={24}
           />
         </a>
+        
+        <div className="mt-3 border-t pt-3">
+          <h2 className={LoginToken.title}>
+            Inicia sesión para comprar
+          </h2>
 
-        <h2 className={LoginToken.title}>
-          Inicia sesión para comprar
-        </h2>
+          <form className={LoginToken.title} onSubmit={handleSubmit(onSubmit)}>
+            {/* Email */}
+            <div>
+              <InputComponents
+                label="Correo electrónico"
+                typeElement="text"
+                idElement="user"
+                register={register("user")}
+              />
+              {errors.user && (
+                <p className={LoginToken.inputError}>{errors.user.message}</p>
+              )}
+            </div>
 
-        <form className={LoginToken.title} onSubmit={handleSubmit(onSubmit)}>
-          {/* Email */}
-          <div>
-            <InputComponents
-              label="Correo electrónico"
-              typeElement="text"
-              idElement="user"
-              register={register("user")}
-            />
-            {errors.user && (
-              <p className={LoginToken.inputError}>{errors.user.message}</p>
-            )}
-          </div>
+            {/* Password */}
+            <div>
+              <InputComponents
+                label="Contraseña"
+                typeElement="password"
+                idElement="password"
+                register={register("password")}
+              />
+              {errors.password && (
+                <p className={LoginToken.inputError}>{errors.password.message}</p>
+              )}
+            </div>
 
-          {/* Password */}
-          <div>
-            <InputComponents
-              label="Contraseña"
-              typeElement="password"
-              idElement="password"
-              register={register("password")}
-            />
-            {errors.password && (
-              <p className={LoginToken.inputError}>{errors.password.message}</p>
-            )}
-          </div>
+            <button
+              type="submit"
+              className={LoginToken.submit}
+            >
+              Ingresar
+            </button>
+          </form>
 
-          <button
-            type="submit"
-            className={LoginToken.submit}
-          >
-            Ingresar
-          </button>
-        </form>
+          {mensaje && (
+            <p className={LoginToken.message}>{mensaje}</p>
+          )}
 
-        {mensaje && (
-          <p className={LoginToken.message}>{mensaje}</p>
-        )}
-
-        <p className={LoginToken.registerWrapper}>
-          ¿Aún no tienes cuenta?{" "}
-          <a href="/SignUp" className={LoginToken.registerLink}>
-            Regístrate
-          </a>
-        </p>
+          <p className={LoginToken.registerWrapper}>
+            ¿Aún no tienes cuenta?{" "}
+            <a href="/SignUp" className={LoginToken.registerLink}>
+              Regístrate
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
