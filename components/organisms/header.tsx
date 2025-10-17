@@ -36,12 +36,14 @@ export default function Header() {
           href="https://www.falabella.com"
           target="_blank"
           rel="noopener noreferrer"
+          className="flex items-center ml-0 justify-center h-9 w-[133px] px-6 border-r border-gray-200 bg-white hover:bg-gray-50 transition-colors border-b-2 border-b-[#aad500]"
         >
           <Image
             src= "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
             alt="Falabella"
             width={100}
-            height={10}
+            height={20}
+            className="!max-w-[95px] !h-auto object-contain"
           />
         </a>
 
@@ -49,12 +51,14 @@ export default function Header() {
           href="https://www.homecenter.com.co"
           target="_blank"
           rel="noopener noreferrer"
+          className="flex items-center justify-center h-9 w-[133px] px-6 border-r border-gray-200 bg-white hover:bg-gray-50 transition-colors"
         >
           <Image
             src = "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/bltccc5a7e27f9cab2f/6418aba238ab2c1b60a4bc29/logo-homecenter-our-stores.svg"
             alt="Homecenter"
-            width={100}
-            height={10}
+            width={110}
+            height={18}
+            className="!max-w-[110px] !h-auto object-contain"
           />
         </a>
 
@@ -62,12 +66,14 @@ export default function Header() {
           href="https://www.linio.com.co"
           target="_blank"
           rel="noopener noreferrer"
+          className="flex items-center justify-center h-9 w-[133px] px-6 border-r border-gray-200 bg-white hover:bg-gray-50 transition-colors"
         >
           <Image
             src= "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blta5a44443cc0e501c/63b6ff659233961262fbd64c/logo-linio.svg"
             alt="Linio"
-            width={100}
-            height={10}
+            width={60}
+            height={18}
+            className="!max-w-[45px] !h-auto object-contain"
           />
         </a>
       </div>
@@ -80,8 +86,9 @@ export default function Header() {
             <Image
             src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
             alt="Falabellla"
-            width={120}
+            width={188}
             height={40}
+            className="m-6"
             />
           </Link>
           
@@ -94,8 +101,8 @@ export default function Header() {
             className={HeaderToken.menuButton}
             type="button"
           >
-            <Menu size={20} />
-            <span className="ml-2 hidden md:inline">Menú</span>
+            <Menu size={30} />
+            <span className="mb-1 hidden md:inline">Menú</span>
           </button>
           <div className={HeaderToken.searchWrapper}>
             <input
@@ -104,19 +111,17 @@ export default function Header() {
               className={HeaderToken.searchInput}
             />
             <button className={HeaderToken.searchButton}>
-              <Search size={20} />
+              <Search size={30} />
             </button>
           </div>
-        </div>
-
-        {/* Acciones */}
-          <div className={HeaderToken.actionsWrapper}>
           <button
             className={HeaderToken.loginButton}
             onClick={() => setIsLoginOpen(true)}
           >
-            Hola, Inicia sesión
+              Hola,<br />
+              <span className="text-[#333333] font-medium">Inicia sesión</span>
           </button>
+          </div>
           <button className={HeaderToken.purchasesButton}>Mis compras</button>
           <Heart />
           <div className={HeaderToken.cartWrapper}>
@@ -126,7 +131,6 @@ export default function Header() {
             </Link>
           </div>
         </div>
-      </div>
 
       <LocationBar {...location} />
       <PromoBar />

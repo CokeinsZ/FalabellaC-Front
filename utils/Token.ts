@@ -126,23 +126,23 @@ export const CarouselToken = {
 export const HeaderToken = {
   container: "w-full bg-white z-50",
 
-  topBar: "flex items-center py-1px ml-auto mr-11 space-x-4",
+  topBar: "flex bg-white border border-gray-200 overflow-hidden",
   topLinks: "hidden md:flex items-center gap-6 text-gray-600",
-  mainBar: "flex items-center justify-between px-6 py-3",
+  mainBar: "flex items-center justify-between h-17 px-6 bg-[#fafafa]",
 
-  logoWrapper: "w-32 h-8 bg-gray-50 flex items-center justify-center text-sm text-gray-500",
+  logoWrapper: "flex items-center",
 
-  menuWrapper: "flex items-center space-x-4 flex-1 max-w-3xl mx-6",
-  menuButton: "inline-flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-50 focus:outline-none",
+  menuWrapper: "flex items-center space-x-4 flex-1 m-10 ",
+  menuButton: "flex items-center gap-2 py-3 rounded-md hover:bg-gray-50 text-gray-700 font-medium text-[24px]",
 
-  searchWrapper: "flex items-center w-full border rounded-full overflow-hidden",
-  searchInput: "flex-1 px-4 py-2 text-sm placeholder-gray-500 outline-none",
+  searchWrapper: "flex items-center w-245 h-11.5 mr-9 border border-black rounded-full bg-white overflow-hidden ",
+  searchInput: "flex-1 px-5 py-2 text-[18px] m-2 text-[#6d7987] placeholder:text-[#6d7987] outline-none",
   searchButton:
-    "flex items-center justify-center px-4 py-2 rounded-r-full bg-[#000000] text-white focus:outline-none",
+    "flex items-center justify-center w-11.5 h-11.5 mr-1 rounded-full bg-[#343a40] text-white hover:bg-[#000000] transition-colors ml-auto mr-[-1px]",
 
-  actionsWrapper: "flex items-center space-x-6",
-  loginButton: "text-sm",
-  purchasesButton: "text-sm",
+  actionsWrapper: "flex items-center mr-0",
+  loginButton: "text-left text-[18px] leading-tight px-0 ",
+  purchasesButton: "text-sm ",
 
   cartWrapper: "relative",
   cartBadge: "absolute -top-2 -right-2 bg-black text-white text-xs rounded-full px-1",
