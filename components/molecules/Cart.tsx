@@ -1,31 +1,29 @@
-// src/components/Cart.tsx
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useCart } from "@/hooks/useCart";
+import ResumeGrid from "../atoms/ResumeGrid";
 
 export default function Cart() {
   const { productos, updateCantidad, removeProducto } = useCart();
 
   const [showProductos, setShowProductos] = useState(true);
-  const [showResumen, setShowResumen] = useState(true);
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const [saved, setSaved] = useState<typeof productos>([]);
 
   const total = productos.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
 
   useEffect(() => {
-
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
   }, []);
-  
+
   function onDocClick(e: MouseEvent) {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      if (target.closest("[data-menu-id]")) return;
-      setOpenMenuId(null);
-    }
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+    if (target.closest("[data-menu-id]")) return;
+    setOpenMenuId(null);
+  }
 
   const handleEliminar = (id: number) => {
     if (confirm("¿Eliminar este producto del carrito?")) {
@@ -166,54 +164,8 @@ export default function Cart() {
         )}
       </div>
 
-      <div className="w-full md:w-80">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-2xl font-bold">Resumen de la orden</h2>
-        </div>
-
-        <div className="bg-white rounded-xl shadow p-4 relative">
-          <button
-            onClick={() => setShowResumen((s) => !s)}
-            className="absolute right-4 top-4 text-sm select-none"
-            aria-label={showResumen ? "Ocultar resumen" : "Mostrar resumen"}
-          >
-            {showResumen ? "▾" : "▸"}
-          </button>
-
-          {showResumen ? (
-            <>
-              <div className="flex justify-between font-semibold">
-                <span>Productos ({productos.length})</span>
-                <span>${total.toLocaleString()}</span>
-              </div>
-
-              <div className="mt-3 border-t pt-3">
-                <div className="flex items-center justify-between">
-                  <div className="font-semibold">Descuentos (0)</div>
-                  <div>
-
-                    <button className="text-sm select-none" onClick={() => alert("No hay descuentos (puedes implementar).")}>
-                      ▾
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-2 text-sm text-gray-600">No tienes descuentos aplicados.</div>
-              </div>
-
-              <div className="flex justify-between font-bold border-t pt-3 mt-3">
-                <span>Total:</span>
-                <span>${total.toLocaleString()}</span>
-              </div>
-
-              <button className="mt-4 w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-700">
-                Continuar compra
-              </button>
-            </>
-          ) : (
-            <p className="text-sm text-gray-500">Resumen oculto</p>
-          )}
-        </div>
-      </div>
+      {/* usar el componente OrderSummary aquí */}
+      <ResumeGrid title="Orden" action="Continuar Compra" ruta="/checkout/delivery" productos={productos} total={total} onContinuar={() => null} />
     </div>
   );
 }
