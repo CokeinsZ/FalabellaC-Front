@@ -1,4 +1,4 @@
-import Payment from "../../../../components/molecules/Payment";
+import Payment from "@/components/molecules/Payment";
 
 export default function PaymentPage() {
   return (
