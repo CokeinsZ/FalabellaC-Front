@@ -8,6 +8,7 @@ import { HeaderToken } from "../../utils/Token";
 import PromoBar from "../atoms/PromoBar";
 import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
+import SearchSuggestions from "../molecules/SearchSuggestions";
 
 
 export default function Header() {
@@ -88,26 +89,7 @@ export default function Header() {
         </div>
 
         {/* Menú y buscador */}
-        <div className={HeaderToken.menuWrapper}>
-          <button
-            aria-label="Abrir menú"
-            className={HeaderToken.menuButton}
-            type="button"
-          >
-            <Menu size={20} />
-            <span className="ml-2 hidden md:inline">Menú</span>
-          </button>
-          <div className={HeaderToken.searchWrapper}>
-            <input
-              type="text"
-              placeholder="Buscar en falabella.com"
-              className={HeaderToken.searchInput}
-            />
-            <button className={HeaderToken.searchButton}>
-              <Search size={20} />
-            </button>
-          </div>
-        </div>
+        <SearchSuggestions />
 
         {/* Acciones */}
           <div className={HeaderToken.actionsWrapper}>
