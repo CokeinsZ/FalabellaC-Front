@@ -1,63 +1,25 @@
 "use client";
-
 import React from "react";
-import { supabase } from "@/lib/supabaseClient";
-import Cookies from "js-cookie";
 import { useCart } from "@/hooks/useCart";
-import ResumeGrid from "../atoms/ResumeGrid";
 import CheckoutStepper from "../atoms/CheckoutStepper";
+import ResumeGrid from "../atoms/ResumeGrid";
 import Direction from "../atoms/DirectionForm";
+import DirectionA from "../atoms/DirectionA";
+import DirectionB from "../atoms/DirectionB";
+import { useDelivery } from "@/hooks/useDelivery";
 
 export default function Delivery() {
   const { productos } = useCart();
   const total = productos.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
 
-  const [showDirection, setShowDirection] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const checkUserAddress = async () => {
-      try {
-        const token = Cookies.get("token");
-        if (!token) {
-          // si no hay sesión, no mostramos el modal
-          setShowDirection(false);
-          setLoading(false);
-          return;
-        }
-
-        const {
-          data: { user },
-          error: userError,
-        } = await supabase.auth.getUser();
-
-        if (userError || !user) {
-          setShowDirection(false);
-          setLoading(false);
-          return;
-        }
-
-        const { data: direcciones, error: dirError } = await supabase
-          .from("direcciones")
-          .select("id")
-          .eq("user_id", user.id)
-          .limit(1);
-
-        if (dirError) {
-          console.error("Error verificando dirección:", dirError);
-        }
-
-        // Si el usuario NO tiene dirección registrada, mostrar la ventana
-        setShowDirection(!(direcciones && direcciones.length > 0));
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkUserAddress();
-  }, []);
+  const {
+    loading,
+    showDirectionModal,
+    setShowDirectionModal,
+    showA,
+    setShowA,
+    fetchAll,
+  } = useDelivery();
 
   if (loading) {
     return (
@@ -71,7 +33,17 @@ export default function Delivery() {
     <div className="relative">
       <CheckoutStepper currentStep={1} />
 
-      {/* Contenido principal */}
+      <div className="max-w-xl mx-auto">
+        {showA ? (
+          <DirectionA
+            onOpenAddress={() => setShowDirectionModal(true)}
+            onShowDetails={() => setShowA(false)}
+          />
+        ) : (
+          <DirectionB vendor="falabella" />
+        )}
+      </div>
+
       <ResumeGrid
         title="Compra"
         action="Ir a pagar"
@@ -81,8 +53,7 @@ export default function Delivery() {
         onContinuar={() => null}
       />
 
-      {/* Ventana de dirección */}
-      {showDirection && (
+      {showDirectionModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
           aria-modal="true"
@@ -92,7 +63,7 @@ export default function Delivery() {
             <div className="flex justify-between items-center border-b px-4 py-3">
               <h3 className="text-lg font-semibold">Ingresa tu dirección</h3>
               <button
-                onClick={() => setShowDirection(false)}
+                onClick={() => setShowDirectionModal(false)}
                 className="text-gray-500 hover:text-gray-700"
               >
                 ✕
@@ -100,8 +71,9 @@ export default function Delivery() {
             </div>
             <div className="p-4">
               <Direction
-                onSaved={() => {
-                  setShowDirection(false);
+                onSaved={async () => {
+                  await fetchAll();
+                  setShowDirectionModal(false);
                 }}
               />
             </div>

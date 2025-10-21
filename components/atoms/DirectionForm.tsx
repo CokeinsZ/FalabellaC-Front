@@ -1,18 +1,19 @@
 "use client";
 import React from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Cookies from "js-cookie";
 import InputComponents from "../atoms/InputComponents";
 import { directionScheme } from "@/schemas/direction";
-import { DirectionDTO } from "@/interfaces/Direction";
+import { DirectionDTO } from "@/interfaces/direction";
+import { useDirectionForm } from "@/hooks/useDirectionForm";
 
 type Props = {
   onSaved?: () => void;
 };
 
 export default function Direction({ onSaved }: Props) {
+  const { mensaje, loading, saveDirection } = useDirectionForm();
+
   const {
     register,
     handleSubmit,
@@ -22,16 +23,8 @@ export default function Direction({ onSaved }: Props) {
     resolver: zodResolver(directionScheme),
   });
 
-  const [mensaje, setMensaje] = React.useState<string>("");
-  const [loading, setLoading] = React.useState(false);
   const [selectedDept, setSelectedDept] = React.useState<string>("");
   const [ciudades, setCiudades] = React.useState<string[]>([]);
-
-  const departamentos = [
-    "Amazonas","Antioquia","Arauca","Atlántico","Bolívar","Boyacá","Caldas","Caquetá","Casanare","Cauca","Cesar","Chocó","Córdoba",
-    "Cundinamarca","Guainía","Guaviare","Huila","La Guajira","Magdalena","Meta","Nariño","Norte de Santander","Putumayo","Quindío",
-    "Risaralda","San Andrés y Providencia","Santander","Sucre","Tolima","Valle del Cauca","Vaupés","Vichada","Bogotá D.C.",
-  ];
 
   React.useEffect(() => {
     const citiesByDepartment: Record<string, string[]> = {
@@ -51,54 +44,21 @@ export default function Direction({ onSaved }: Props) {
   }, [selectedDept]);
 
   const onSubmit: SubmitHandler<DirectionDTO> = async (data) => {
-    setMensaje("");
-    setLoading(true);
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        setMensaje("No se encontró sesión. Por favor inicia sesión.");
-        setLoading(false);
-        return;
-      }
-
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-
-      if (userError || !user) {
-        setMensaje("No se pudo obtener el usuario.");
-        setLoading(false);
-        return;
-      }
-
-      const { error: insertError } = await supabase.from("direcciones").insert([
-        {
-          user_id: user.id,
-          ...data,
-        },
-      ]);
-
-      if (insertError) {
-        setMensaje("Error al guardar: " + insertError.message);
-        setLoading(false);
-        return;
-      }
-
-      setMensaje("Dirección guardada correctamente.");
+    const result = await saveDirection(data);
+    if (result.ok) {
       reset();
       if (onSaved) onSaved();
-    } catch (err) {
-      console.error(err);
-      setMensaje("Error inesperado al guardar.");
-    } finally {
-      setLoading(false);
     }
   };
 
+  const departamentos = [
+    "Amazonas","Antioquia","Arauca","Atlántico","Bolívar","Boyacá","Caldas","Caquetá","Casanare","Cauca","Cesar","Chocó","Córdoba",
+    "Cundinamarca","Guainía","Guaviare","Huila","La Guajira","Magdalena","Meta","Nariño","Norte de Santander","Putumayo","Quindío",
+    "Risaralda","San Andrés y Providencia","Santander","Sucre","Tolima","Valle del Cauca","Vaupés","Vichada","Bogotá D.C.",
+  ];
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* Departamento */}
       <div>
         <label className="block mb-1 font-medium">Departamento</label>
         <select
@@ -115,7 +75,6 @@ export default function Direction({ onSaved }: Props) {
         {errors.departamento && <p className="text-red-600 text-sm">{errors.departamento.message}</p>}
       </div>
 
-      {/* Ciudad */}
       <div>
         <label className="block mb-1 font-medium">Ciudad</label>
         {ciudades.length > 0 ? (
