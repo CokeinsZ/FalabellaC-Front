@@ -34,7 +34,7 @@ export default function SignForm() {
       email,
       password,
       options: {
-        data: { nombre, apellidos },
+        data: { nombre, apellidos, isSeller: false},
       },
     });
 

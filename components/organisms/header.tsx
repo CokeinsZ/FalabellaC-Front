@@ -22,10 +22,10 @@ export default function Header() {
       "https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg",
     text: "Ingresa tu ubicación",
     rightLinks: [
-      { label: "Vende en falabella.com" },
-      { label: "Tarjetas y cuentas" },
-      { label: "Novios" },
-      { label: "Ayuda" },
+      { label: "Vende en falabella.com", href: "/Vende-en-Falabella" },
+      { label: "Tarjetas y cuentas", href: "#" },
+      { label: "Novios", href: "#" },
+      { label: "Ayuda", href: "#" },
     ],
   };
   return (

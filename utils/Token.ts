@@ -65,18 +65,18 @@ export const LogoGroupToken = {
 };
 
 export const ProductDetailToken = {
-  container:
-    "max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-lg shadow",
-
-  mainImage: "rounded-lg object-cover w-full h-96",
+  container: "container max-w-6xl mx-auto bg-white rounded-lg shadow my-12",
+  nav_categories: "text-sm text-gray-500 mb-4",
+  category: "mx-2 hover:underline cursor-pointer",
+  mainImage: "object-contain max-h-[520px]",
   thumbnails: "flex gap-3 mt-4",
   thumbnailImg:
     "rounded border object-cover w-20 h-20 cursor-pointer hover:scale-105 transition",
-
+  refunds: "mt-6 flex items-center gap-3 text-sm text-gray-600",
   title: "text-3xl font-bold mb-3",
   sku: "text-gray-500",
-  rating: "flex items-center mt-2",
-  stars: "text-yellow-400",
+  rating: "mt-3 flex items-center gap-4",
+  stars: "flex items-center gap-2 text-yellow-400",
   ratingText: "ml-2 text-sm text-gray-500",
 
   priceContainer: "mt-4",

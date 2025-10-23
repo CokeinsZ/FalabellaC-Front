@@ -1,19 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/organisms/header";
 
 import FooterData from "@/components/organisms/FooterData";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 
 export const metadata: Metadata = {
   title: "Falabella-Clon",
@@ -27,16 +15,12 @@ export default function webpageLayout({
 }>) {
   return (
     <>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
-      >
-        {/* Header */}
-        <Header />
+      {/* Header */}
+      <Header />
 
-        {/* Main Content */}
-        <main className="mx-auto max-w-6xl p-6">{children}</main>
-        <FooterData />
-      </body>
+      {/* Main Content */}
+      <main className="mx-auto max-w-6xl p-6">{children}</main>
+      <FooterData />
     </>
   );
 }
