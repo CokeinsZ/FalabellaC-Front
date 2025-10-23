@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { ProductCardToken } from "../../utils/Token";
+import  Link  from "next/link";
+
 
 export interface ProductCardDTO {
   id: number | string;
@@ -23,9 +25,11 @@ export default function ProductCard({
   img,
 }: ProductCardDTO) {
   return (
-    <div
+    <div>
+    <Link
       key={id}
       className={ProductCardToken.container}
+      href={`/products/${id}`}
     >
       {/* Imagen */}
       
@@ -65,6 +69,7 @@ export default function ProductCard({
           <span className={ProductCardToken.rating}>{rating}</span>
         </div>
       )}
+    </Link>
     </div>
   );
 }

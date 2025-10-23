@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import CheckIcon from "@/components/atoms/CheckIcon";
 
-export default function RegistroExitosoPage() {
+function RegistroExitosoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -179,5 +179,20 @@ export default function RegistroExitosoPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegistroExitosoPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Cargando...</p>
+        </div>
+      </div>
+    }>
+      <RegistroExitosoContent />
+    </Suspense>
   );
 }

@@ -136,9 +136,8 @@ export const HeaderToken = {
   menuButton: "inline-flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-50 focus:outline-none",
 
   searchWrapper: "flex items-center w-full border rounded-full overflow-hidden",
-  searchInput: "flex-1 px-4 py-2 text-sm placeholder-gray-500 outline-none",
-  searchButton:
-    "flex items-center justify-center px-4 py-2 rounded-r-full bg-[#000000] text-white focus:outline-none",
+  searchInput: "flex-1 w-full px-4 py-3 text-base placeholder-gray-400 outline-none rounded-l-full bg-transparent",
+  searchButton: "flex items-center justify-center px-5 py-3 rounded-r-full bg-black text-white focus:outline-none transition-colors duration-200 hover:bg-gray-800",
 
   actionsWrapper: "flex items-center space-x-6",
   loginButton: "text-sm",

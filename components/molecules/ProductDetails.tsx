@@ -46,7 +46,6 @@ export default function ProductDetail({ id }: Props) {
   };
 
   return (
-    <div>
     <div className={ProductDetailToken.container}>
       {/* Navegacion - Categorias */}
       <nav className={ProductDetailToken.nav_categories}>
