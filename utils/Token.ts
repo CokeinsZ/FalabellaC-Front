@@ -130,18 +130,18 @@ export const HeaderToken = {
   topLinks: "hidden md:flex items-center gap-6 text-gray-600",
   mainBar: "flex items-center justify-between h-17 px-6 bg-[#fafafa]",
 
-  logoWrapper: "flex items-center",
+  logoWrapper: "flex items-center ", //falabella.com
 
-  menuWrapper: "flex items-center space-x-4 flex-1 m-10 ",
+  menuWrapper: "flex items-center gap-x-4 flex-1 m-10 ",
   menuButton: "flex items-center gap-2 py-3 rounded-md hover:bg-gray-50 text-gray-700 font-medium text-[24px]",
 
-  searchWrapper: "flex items-center w-245 h-11.5 mr-9 border border-black rounded-full bg-white overflow-hidden ",
+  searchWrapper: "flex items-center w-234 h-11.5 m-9.5 border border-black rounded-full bg-white overflow-hidden ",
   searchInput: "flex-1 px-5 py-2 text-[18px] m-2 text-[#6d7987] placeholder:text-[#6d7987] outline-none",
   searchButton:
     "flex items-center justify-center w-11.5 h-11.5 mr-1 rounded-full bg-[#343a40] text-white hover:bg-[#000000] transition-colors ml-auto mr-[-1px]",
 
   actionsWrapper: "flex items-center mr-0",
-  loginButton: "text-left text-[18px] leading-tight px-0 ",
+  loginButton: "text-left text-[18px] font-semibold text-[#1a1a1a] -ml-7 leading-tight px-0 ",
   purchasesButton: "text-sm ",
 
   cartWrapper: "relative",

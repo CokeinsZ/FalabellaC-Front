@@ -119,9 +119,8 @@ export default function Header() {
             onClick={() => setIsLoginOpen(true)}
           >
               Hola,<br />
-              <span className="text-[#333333] font-medium">Inicia sesión</span>
+              <span className="text-[20px] font-semibold text-[#1a1a1a]">Inicia sesión</span>
           </button>
-          </div>
           <button className={HeaderToken.purchasesButton}>Mis compras</button>
           <Heart />
           <div className={HeaderToken.cartWrapper}>
@@ -131,6 +130,7 @@ export default function Header() {
             </Link>
           </div>
         </div>
+      </div>
 
       <LocationBar {...location} />
       <PromoBar />
