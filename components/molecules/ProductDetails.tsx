@@ -46,6 +46,7 @@ export default function ProductDetail({ id }: Props) {
   };
 
   return (
+    <div>
     <div className={ProductDetailToken.container}>
       {/* Navegacion - Categorias */}
       <nav className={ProductDetailToken.nav_categories}>
@@ -107,38 +108,6 @@ export default function ProductDetail({ id }: Props) {
           </div>
         </div>
 
-        {/* 💲 Precio */}
-        <div className={ProductDetailToken.priceContainer}>
-          <p className={ProductDetailToken.price}>
-            ${producto.precio.toLocaleString()}
-          </p>
-        </div>
-
-        {/* 📋 Especificaciones */}
-        <div className={ProductDetailToken.specsContainer}>
-          <h2 className={ProductDetailToken.specsTitle}>Especificaciones principales</h2>
-          <ul className={ProductDetailToken.specsList}>
-            <li>Producto: {producto.nombre}</li>
-            <li>Material: Plástico, Tela</li>
-          </ul>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setCantidad((prev) => Math.max(prev - 1, 1))} 
-            className="w-10 h-10 flex items-center justify-center border rounded bg-gray-100 hover:bg-black hover:text-white transition"
-            aria-label="Restar cantidad"
-          >
-            −
-          </button>
-        <div className="px-3">{cantidad}</div>
-          <button
-            onClick={() => setCantidad((prev) => prev + 1)}
-            className="w-10 h-10 flex items-center justify-center border rounded bg-gray-100 hover:bg-black hover:text-white transition"
-            aria-label="Sumar cantidad"
-          >
-            +
-          </button>
         {/* 📄 Detalles - Derecha (aquí se divide internamente) */}
         <div className="col-span-8">
           {/* Título + códigos */}
