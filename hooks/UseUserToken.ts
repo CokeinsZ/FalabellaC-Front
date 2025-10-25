@@ -1,32 +1,48 @@
-// hooks/useUserFromToken.ts
 "use client";
 
-import { useMemo } from "react";
-import { useAuth } from "@/hooks/useAuth"; // o el contexto donde guardas el token
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
+interface UserMetadata {
+  nombre?: string;
+  apellidos?: string;
+  email?: string;
+  isSeller?: boolean;
+}
+
+interface UserToken {
+  sub: string;
+  email: string;
+  user_metadata?: UserMetadata;
+  [key: string]: any; // para los demás campos
+}
 
 export function useUserFromToken() {
-  const { token } = useAuth(); // asegúrate de que tu auth context exponga el token
+  const [user, setUser] = useState<UserToken | null>(null);
 
-  const user = useMemo(() => {
-    if (!token) return null;
-
+  useEffect(() => {
     try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
+      const cookieString = document.cookie;
+      const token = cookieString
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
 
-      return {
-        id: payload.sub,
-        name: payload.name || "Sin nombre",
-        lastName: payload.lastName || "",
-        documentType: payload.documentType || "No definido",
-        documentNumber: payload.documentNumber || "",
-        phone: payload.phone || "Sin información",
-        email: payload.email || "Sin información",
-      };
-    } catch (err) {
-      console.error("Error decoding token:", err);
-      return null;
+      if (!token) {
+        console.warn("No se encontró el token en las cookies");
+        return;
+      }
+
+      const decoded = jwtDecode<UserToken>(token);
+      console.log("Usuario decodificado:", decoded);
+      setUser(decoded);
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
     }
-  }, [token]);
+  }, []);
 
   return { user };
 }
+
+
+
