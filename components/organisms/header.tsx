@@ -14,6 +14,25 @@ export default function Header() {
 
    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+   const categories = [
+    "Hot Sale",
+    "Moda mujer",
+    "Moda hombre",
+    "Moda niños y bebés",
+    "Tecnología",
+    "Celulares y accesorios",
+    "Electrohogar",
+    "Tenis y zapatos",
+    "Belleza y salud",
+    "Accesorios de moda",
+    "Niños y juguetes",
+    "Muebles y organización",
+    "Dormitorio",
+    "Bebé",
+    "Cocina y menaje",
+  ];
 
 
    const productos = useCart((state) => state.productos);
@@ -103,6 +122,7 @@ export default function Header() {
             aria-label="Abrir menú"
             className={HeaderToken.menuButton}
             type="button"
+            onClick={() => setIsSideMenuOpen(true)}
           >
             <Menu size={30} />
             <span className="mb-1 hidden md:inline">Menú</span>
@@ -167,6 +187,63 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Menú lateral */}
+{isSideMenuOpen && (
+  <>
+    {/* Fondo oscuro */}
+    <div
+      className="fixed inset-0 bg-black bg-opacity-40 z-40"
+      onClick={() => setIsSideMenuOpen(false)}
+    />
+
+    {/* Panel lateral */}
+    <div className="fixed top-0 left-0 h-full w-75 bg-white z-50 shadow-lg overflow-y-auto transition-transform duration-300 ease-out">
+      <div className="flex items-center justify-between p-4 border-b">
+        <h2 className="text-xl font-bold text-[#495867]">¡Hola!</h2>
+        <button
+          onClick={() => setIsSideMenuOpen(false)}
+          className="text-gray-600 hover:text-black"
+        >
+          ✕
+        </button>
+      </div>
+
+      <ul className="p-4 space-y-2 text-[#1a1a1a] font-medium relative">
+        {categories.map((cat) => (
+          <li
+            key={cat}
+            onMouseEnter={() => setActiveCategory(cat)}
+            onMouseLeave={() => setActiveCategory(null)}
+            className={`flex justify-between items-center px-3 py-2 rounded-md cursor-pointer transition-all
+              ${activeCategory === cat ? "bg-[#f5fbe5] border-l-4 border-l-[#aad500] text-[#6f8500]" : "hover:bg-gray-50"}
+            `}
+          >
+            {cat} <span>›</span>
+          </li>
+        ))}
+      </ul>
+
+    </div>
+  </>
+)}
+
+    {/* Panel derecho dinámico */}
+    {activeCategory && (
+      <div className="absolute top-0 left-[320px] w-[903px] -ml-5 mt-15 h-full bg-white shadow-lg border-l border-gray-200 z-50">
+        <div className="p-4 bg-[#d6ec9f] text-[#1a1a1a] font-bold flex items-center gap-2">
+          <span className="text-[#6f8500] text-xl">🍀</span>
+          {activeCategory}
+        </div>
+        <div className="p-6 text-gray-700">
+          <p className="text-sm">Contenido de {activeCategory}...</p>
+          <div className="mt-4 space-y-2">
+            <p>- Subcategoría 1</p>
+            <p>- Subcategoría 2</p>
+            <p>- Subcategoría 3</p>
+          </div>
+        </div>
+      </div>
+    )}
       <LocationBar {...location} />
       <PromoBar />
 
