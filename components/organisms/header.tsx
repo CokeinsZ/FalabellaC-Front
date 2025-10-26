@@ -12,7 +12,9 @@ import { useCart } from "@/hooks/useCart";
 
 export default function Header() {
 
-   const [isLoginOpen, setIsLoginOpen] = useState(false);
+   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
 
    const productos = useCart((state) => state.productos);
    const totalItems = productos.reduce((acc, p) => acc + p.cantidad, 0);
@@ -29,6 +31,7 @@ export default function Header() {
     ],
   };
   return (
+    <>
     <header className={HeaderToken.container}>
       {/* Barra superior con logos */}
       <div className={HeaderToken.topBar}>
@@ -114,13 +117,45 @@ export default function Header() {
               <Search size={30} />
             </button>
           </div>
-          <button
-            className={HeaderToken.loginButton}
-            onClick={() => setIsLoginOpen(true)}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
           >
+            <button
+              className={HeaderToken.loginButton}
+            >
               Hola,<br />
-              <span className="text-[20px] font-semibold text-[#1a1a1a]">Inicia sesión</span>
-          </button>
+              <span className="text-[20px] font-semibold text-[#1a1a1a]">
+                Inicia sesión
+              </span>
+            </button>
+
+            {/* Dropdown hover */}
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 -m-13 mt-2 w-60 h-52 bg-white rounded-md shadow-lg z-50 p-3 text-[#1a1a1a]">
+                <ul className="flex flex-col gap-2">
+                  <li className="m-2 mt-1 text-[#495867] hover:text-[#1a1a1a] cursor-pointer"
+                            onClick={() => {
+                      setIsDropdownOpen(false);     // cierra el dropdown
+                      setIsLoginModalOpen(true);    // abre el modal real
+                  }}>Inicia sesión</li>
+                  <li className="m-2 mt-1 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Regístrate</li>
+                  <li className="m-2 mt-0 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Mi cuenta</li>
+                  <hr />
+                  <li className="flex items-center gap-2 text-[#495867] hover:text-[#1a1a1a] mt-4 m-4 cursor-pointer">
+                    <img
+                      src="https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg"
+                      alt="CMR Puntos"
+                      className="w-4 h-4"
+                    />
+                    CMR Puntos
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+
           <button className={HeaderToken.purchasesButton}>Mis compras</button>
           <Heart />
           <div className={HeaderToken.cartWrapper}>
@@ -135,10 +170,23 @@ export default function Header() {
       <LocationBar {...location} />
       <PromoBar />
 
-        {isLoginOpen && (
-        <Login  isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      )}
-
+        {isLoginModalOpen && (
+          <Login isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+        )}
     </header>
+    {/* Fondo oscuro solo para el hover */}
+    {isDropdownOpen && (
+      <div
+        className="fixed inset-0 z-40 pointer-events-none" // no bloquea el header
+      >
+        {/* capa visible y clicable fuera del header */}
+        <div
+          className="absolute inset-0 bg-black bg-opacity-40 pointer-events-auto"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.6)", top: '150px' }} // ajusta según la altura total de tu header
+          onClick={() => setIsDropdownOpen(false)}
+        />
+      </div>
+)}
+    </>
   );
 }

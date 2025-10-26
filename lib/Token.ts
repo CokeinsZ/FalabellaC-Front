@@ -1,1 +1,2 @@
-export const standarinput = "mt-1 w-full border border-gray-400 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+export const standarinput =
+  "border-none bg-transparent p-0 w-full text-[18px] font-normal leading-[22px] text-[#333] h-full tracking-[0.2px] focus:outline-none";
