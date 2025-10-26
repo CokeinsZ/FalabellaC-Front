@@ -1,29 +1,21 @@
-// PaymentMethods.tsx
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, CreditCard, DollarSign, Gift, Banknote, Building, X } from "lucide-react";
+import { Card as UICard, CardContent } from "@/components/ui/card"; // renombrado para evitar conflicto
+import { CreditCard, Gift, Building, X } from "lucide-react";
 import type { Address } from "@/hooks/useAddressCookie";
+import { useDelivery } from "@/hooks/useDelivery";
+import ChangeDir from "./ChangeDir";
+import CardForm from "./CardForm"; // <-- importamos CardForm
 
 interface PaymentMethodsProps {
   address?: Address | null;
   onChangeAddress?: () => void;
 }
 
-export default function PaymentMethods({ address, onChangeAddress }: PaymentMethodsProps) {
+export default function PaymentMethods({ address }: PaymentMethodsProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const formatAddress = (a: Address) => {
-    const parts = [];
-    if (a.direccion) parts.push(a.direccion);
-    if (a.barrio) parts.push(a.barrio);
-    if (a.adicional) parts.push(a.adicional);
-    const cityPart = [a.ciudad, a.departamento].filter(Boolean).join(" - ");
-    if (cityPart) parts.push(cityPart);
-    return parts.join(", ");
-  };
 
   const items = [
     { id: "cmr", label: "Tarjeta CMR", icon: <CreditCard className="w-4 h-4" /> },
@@ -42,9 +34,13 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
     // opcional: limpiar selección si quieres
     // setSelected(null);
   };
+  const {
+    showDirectionModal,
+    setShowDirectionModal,
+    direcciones,
+    fetchAll,
+  } = useDelivery();
 
-  // mostrar bloque tipo documento sólo para cmr y falabella
-  const mostrarDocumento = selected === "cmr" || selected === "falabella";
 
   const getTitle = (id: string | null) => {
     switch (id) {
@@ -56,20 +52,51 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
     }
   };
 
+  // mapeo a "tipo" esperado por CardForm (ajusta si tu CardForm espera otros strings)
+  const tipoParaCardForm = (id: string | null) => {
+    if (!id) return "";
+    if (id === "falabella") return "debito_falabella"; // tu CardForm usaba este tipo
+    return id; // cmr, credito, debito
+  };
+
   return (
     <>
-      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow p-6 space-y-6">
+      <div>
         {/* Dirección */}
-        <div className="flex justify-between items-center bg-gray-50 rounded-lg p-3">
-          <div className="flex items-center gap-2 text-gray-700">
-            <MapPin className="w-4 h-4 text-gray-500" />
-            <span className="text-sm">
-              {address ? formatAddress(address) : "No hay dirección seleccionada"}
-            </span>
+        <div className="flex items-center justify-between gap-4 bg-white rounded-2xl shadow-sm border border-gray-200 p-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 12 6 12s6-6.75 6-12c0-3.314-2.686-6-6-6z" stroke="#374151" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="12" cy="8" r="2" fill="#fff" stroke="#374151" strokeWidth="1.2"/>
+              </svg>
+            </div>
+
+            <div>
+              {address ? (
+                <p className="text-sm text-gray-500">
+                  Dirección - <span className="text-gray-700 font-medium">
+                    {address.direccion}
+                    {address.adicional ? `, ${address.adicional}` : ""}
+                    {address.barrio ? ` · ${address.barrio}` : ""}
+                    {`, ${address.ciudad} · ${address.departamento}`}
+                  </span>
+                </p>
+              ) : (
+                <p className="text-sm text-gray-500">No hay dirección seleccionada</p>
+              )}
+            </div>
           </div>
-          <button onClick={onChangeAddress} className="text-sm text-blue-600 hover:underline">
-            Cambiar
-          </button>
+
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <button className="underline" onClick={() => setShowDirectionModal(true)}>Cambiar</button>
+            <button aria-label="info" className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 11v4" stroke="#374151" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 7h.01" stroke="#374151" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Agregar tarjeta */}
@@ -77,7 +104,7 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
           <h2 className="text-lg font-semibold mb-3">Agregar tarjeta</h2>
           <div className="space-y-2">
             {items.map((item) => (
-              <Card
+              <UICard
                 key={item.id}
                 className={`cursor-pointer transition-all border ${selected === item.id ? "border-blue-500" : "hover:border-gray-300"}`}
                 onClick={() => handleCardClick(item.id)}
@@ -86,42 +113,17 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
                   {item.icon}
                   <span>{item.label}</span>
                 </CardContent>
-              </Card>
+              </UICard>
             ))}
 
             {/* Gift Card */}
-            <Card className="opacity-50">
+            <UICard className="opacity-50">
               <CardContent className="flex items-center gap-3 py-3">
                 <Gift className="w-4 h-4" />
                 <span>Gift Card</span>
                 <span className="ml-auto text-sm text-gray-500">No disponible</span>
               </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Otras opciones */}
-        <div>
-          <h2 className="text-lg font-semibold mb-3">Otras opciones</h2>
-          <div className="space-y-2">
-            <Card className="cursor-pointer hover:border-gray-300 transition-all">
-              <CardContent className="flex items-center gap-3 py-3">
-                <Banknote className="w-4 h-4" />
-                <span>Débito desde cuenta corriente o ahorros</span>
-              </CardContent>
-            </Card>
-            <Card className="cursor-pointer hover:border-gray-300 transition-all">
-              <CardContent className="flex items-center gap-3 py-3">
-                <DollarSign className="w-4 h-4" />
-                <span>Pago en efectivo</span>
-              </CardContent>
-            </Card>
-            <Card className="cursor-pointer hover:border-gray-300 transition-all">
-              <CardContent className="flex items-center gap-3 py-3">
-                <CreditCard className="w-4 h-4" />
-                <span>Cupón de descuento</span>
-              </CardContent>
-            </Card>
+            </UICard>
           </div>
         </div>
       </div>
@@ -129,14 +131,12 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
       {/* Drawer / Modal lateral */}
       {drawerOpen && (
         <>
-          {/* Overlay */}
           <div
             className="fixed inset-0 bg-black/40 z-40"
             onClick={closeDrawer}
             aria-hidden
           />
 
-          {/* Panel derecho */}
           <aside
             className="fixed right-0 top-0 h-full w-full sm:w-[460px] bg-white z-50 shadow-lg transform transition-transform duration-300"
             role="dialog"
@@ -144,9 +144,7 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
           >
             <div className="flex items-center justify-between p-6 border-b">
               <div className="flex items-center gap-3">
-                {/* Puedes poner icono condicional si quieres */}
                 <div className="w-8 h-8 flex items-center justify-center bg-green-100 rounded">
-                  {/* icon pequeño */}
                   <CreditCard className="w-4 h-4 text-green-600" />
                 </div>
                 <h3 className="text-lg font-medium">{getTitle(selected)}</h3>
@@ -161,62 +159,30 @@ export default function PaymentMethods({ address, onChangeAddress }: PaymentMeth
               </button>
             </div>
 
-            <div className="p-6 space-y-6 overflow-auto h-[calc(100%-72px)]"> {/* ajuste alto para que quede dentro del panel */}
-              <div>
-                <label className="block text-sm text-gray-600">Número de tarjeta</label>
-                <input className="w-full border-b py-3 focus:outline-none" placeholder="0000 0000 0000 0000" />
-              </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm text-gray-600">Expiración</label>
-                  <input className="w-full border-b py-3 focus:outline-none" placeholder="MM/AA" />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600">Código de seguridad</label>
-                  <input className="w-full border-b py-3 focus:outline-none" placeholder="CVV" />
-                </div>
-              </div>
-
-              {mostrarDocumento && (
-                <>
-                  <div>
-                    <label className="block text-sm text-gray-600 mb-2">Tipo de documento (titular de la tarjeta)</label>
-                    <div className="grid grid-cols-2 gap-4 items-end">
-                      <div>
-                        <select className="w-full border-b py-2 focus:outline-none">
-                          <option>Cédula de Ciudadanía</option>
-                          <option>Cédula de Extranjería</option>
-                          <option>Pasaporte</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <input className="w-full border-b py-2 focus:outline-none" placeholder={selected === "cmr" ? "CC dueño de la tarjeta" : "Número de documento"} />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              <div>
-                <button
-                  className="w-full bg-gray-200 text-gray-700 py-3 rounded-full text-lg"
-                  onClick={() => {
-                    // Lógica de envío o validación aquí
-                    // por ahora solo cerramos
-                    closeDrawer();
-                  }}
-                >
-                  Agregar
-                </button>
-                <p className="text-xs text-gray-500 mt-3">
-                  Validaremos tu tarjeta con un cobro único de $0 o $107 que será reembolsado.
-                </p>
-              </div>
+            <div className="p-6 space-y-6 overflow-auto h-[calc(100%-72px)]">
+              {/* Aquí renderizamos CardForm y le pasamos tipo + onSaved */}
+              <CardForm
+                tipo={tipoParaCardForm(selected)}
+                onSaved={() => {
+                  // lo que ocurre cuando la tarjeta se guardó correctamente
+                  closeDrawer();
+                  setSelected(null);
+                  // opcional: refrescar tarjetas, mostrar toast, etc.
+                }}
+              />
             </div>
           </aside>
         </>
+      )}
+      {showDirectionModal && (
+        <ChangeDir
+          isOpen={showDirectionModal}
+          onClose={async () => {
+            setShowDirectionModal(false);
+            await fetchAll();
+          }}
+          adresses={direcciones}
+        />
       )}
     </>
   );

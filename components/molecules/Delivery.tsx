@@ -33,25 +33,32 @@ export default function Delivery() {
     <div className="relative">
       <CheckoutStepper currentStep={1} />
 
-      <div className="max-w-xl mx-auto">
-        {showA ? (
-          <DirectionA
-            onOpenAddress={() => setShowDirectionModal(true)}
-            onShowDetails={() => setShowA(false)}
-          />
-        ) : (
-          <DirectionB vendor="falabella" />
-        )}
-      </div>
+      {/* GRID PRINCIPAL */}
+      <div className="max-w-6xl mx-auto mt-8 flex flex-col lg:flex-row gap-8">
+        {/* Columna izquierda */}
+        <div className="flex-1">
+          {showA ? (
+            <DirectionA
+              onOpenAddress={() => setShowDirectionModal(true)}
+              onShowDetails={() => setShowA(false)}
+            />
+          ) : (
+            <DirectionB vendor="falabella" />
+          )}
+        </div>
 
-      <ResumeGrid
-        title="Compra"
-        action="Ir a pagar"
-        ruta="/checkout/payment"
-        productos={productos}
-        total={total}
-        onContinuar={() => null}
-      />
+        {/* Columna derecha */}
+        <div className="w-full lg:w-1/3">
+          <ResumeGrid
+            title="Compra"
+            action="Ir a pagar"
+            ruta="/checkout/payment"
+            productos={productos}
+            total={total}
+            onContinuar={() => null}
+          />
+        </div>
+      </div>
 
       {showDirectionModal && (
         <div
