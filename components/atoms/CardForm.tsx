@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { cardScheme } from "@/schemas/card";
 import { CardDTO } from "@/interfaces/card";
 import { useCardForm } from "@/hooks/useCardForm";
-import InputComponents from "./InputComponents"; // ajusta la ruta si es necesario
+import InputComponents from "./InputComponents";
+import { useUserCard } from "@/hooks/useUserCard";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cardScheme } from "@/schemas/card";
 
 type Props = {
   tipo: string;
@@ -18,28 +19,62 @@ export default function CardForm({ tipo, onSaved }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
     reset,
+    setValue,
+    watch,
+    formState: { errors },
   } = useForm<CardDTO>({
     resolver: zodResolver(cardScheme),
   });
+  const numero_enc = watch("numero_enc");
 
   const mostrarDocumento = tipo === "debito_falabella" || tipo === "cmr";
+  const { getLast4, usuario_id, nombre_titular } = useUserCard<CardDTO>({ setValue });
+
+  React.useEffect(() => {
+    if(!numero_enc){
+      setValue("last4", "");
+      return;
+    }
+    const last4 = getLast4(numero_enc);
+    if(last4){
+      setValue("last4", last4, {shouldValidate: true, shouldDirty: true});
+    }
+  },[numero_enc, setValue, getLast4]);
 
   const onSubmit: SubmitHandler<CardDTO> = async (data) => {
-    const payload = { ...data, tipo };
+    console.log("🚀 onSubmit SE EJECUTÓ");
+    console.log("Datos completos (antes):", data);
 
-    const result = await saveCard(payload); // ajusta si saveCard espera otro shape
+    const last4 = getLast4(data.numero_enc);
+    console.log("last4 calculado:", last4);
+
+    const payload = {
+      ...data,
+      last4,
+      usuario_id,      
+      nombre_titular,
+    };
+
+    console.log("payload a enviar:", payload);
+    const result = await saveCard(payload);
+    console.log("result saveCard:", result);
+
     if (result?.ok) {
       reset();
       if (onSaved) onSaved();
     } else {
+      // el mensaje de error ya se maneja en useCardForm, pero lo dejamos para debug
       console.error("Error guardando tarjeta", result);
     }
   };
 
+  const onError = (errs: any) => {
+    console.log("❌ ERRORES DE VALIDACIÓN:", errs);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="tarjeta-formulario space-y-4">
+    <form onSubmit={handleSubmit(onSubmit, onError)} className="tarjeta-formulario space-y-4">
       <h3 className="text-lg font-medium">
         {tipo === "credito" && "Tarjeta de crédito"}
         {tipo === "debito" && "Tarjeta de débito"}
@@ -54,7 +89,6 @@ export default function CardForm({ tipo, onSaved }: Props) {
           idElement="number"
           register={register("numero_enc")}
         />
-        {errors.numero_enc && <p className="text-xs text-red-500 mt-1">{(errors.number as unknown)?.message}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -63,9 +97,8 @@ export default function CardForm({ tipo, onSaved }: Props) {
             label="Expiración"
             typeElement="text"
             idElement="expiration"
-            register={register("expiration")}
+            register={register("expiracion")}
           />
-          {errors.expiration && <p className="text-xs text-red-500 mt-1">{(errors.expiration)?.message}</p>}
         </div>
 
         <div>
@@ -75,7 +108,6 @@ export default function CardForm({ tipo, onSaved }: Props) {
             idElement="cvv"
             register={register("cvv_enc")}
           />
-          {errors.cvv_enc && <p className="text-xs text-red-500 mt-1">{(errors.cvv_enc)?.message}</p>}
         </div>
       </div>
 
@@ -95,7 +127,6 @@ export default function CardForm({ tipo, onSaved }: Props) {
                 ]}
                 register={register("documentType")}
               />
-              {errors.documentType && <p className="text-xs text-red-500 mt-1">{(errors.documentType as unknown)?.message}</p>}
             </div>
 
             <div>
@@ -105,7 +136,6 @@ export default function CardForm({ tipo, onSaved }: Props) {
                 idElement="documentNumber"
                 register={register("documentNumber")}
               />
-              {errors.documentNumber && <p className="text-xs text-red-500 mt-1">{(errors.documentNumber as unknown)?.message}</p>}
             </div>
           </div>
         </div>
@@ -119,6 +149,13 @@ export default function CardForm({ tipo, onSaved }: Props) {
         >
           {loading ? "Guardando..." : "Agregar"}
         </button>
+
+        {Object.keys(errors).length > 0 && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <p>Errores de validación:</p>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
+          </div>
+        )}
 
         {mensaje && <p className="text-xs text-gray-500 mt-3">{mensaje}</p>}
         <p className="text-xs text-gray-500 mt-3">

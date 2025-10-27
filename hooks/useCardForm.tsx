@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import Cookies from "js-cookie";
 import type { CardDTO } from "@/interfaces/card";
 
 export function useCardForm() {
@@ -11,39 +10,49 @@ export function useCardForm() {
     setMensaje("");
     setLoading(true);
     try {
-      const token = Cookies.get("token");
-      if (!token) {
-        setMensaje("No se encontró sesión. Por favor inicia sesión.");
-        return { ok: false };
-      }
+      // Intentamos obtener la sesión/usuario desde supabase
+      const { data: userData, error: userError } = await supabase.auth.getUser();
 
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-
-      if (userError || !user) {
+      if (userError) {
+        console.error("getUser error:", userError);
         setMensaje("No se pudo obtener el usuario.");
+        return { ok: false, error: userError };
+      }
+
+      const user = userData?.user;
+      if (!user) {
+        setMensaje("No hay usuario autenticado.");
         return { ok: false };
       }
 
-      const { error: insertError } = await supabase.from("tarjetas_credito").insert([
-        {
-          ...data,
-        },
-      ]);
+      const usuario_id = typeof data.usuario_id !== "undefined" ? data.usuario_id : user.id;
+ 
+      const payload = {
+        ...data,
+        usuario_id,
+      };
+
+      console.log("Inserting payload to supabase:", payload);
+
+      const { data: insertData, error: insertError } = await supabase
+        .from("tarjetas_credito")
+        .insert([payload])
+        .select(); // pide que devuelvan la(s) fila(s)
+
+      console.log("Supabase insert response:", { insertData, insertError });
 
       if (insertError) {
-        setMensaje("Error al guardar: " + insertError.message);
-        return { ok: false };
+        // PostgREST normalmente entrega message y details
+        setMensaje("Error al guardar: " + (insertError.message || JSON.stringify(insertError)));
+        return { ok: false, error: insertError };
       }
 
       setMensaje("Tarjeta guardada correctamente.");
-      return { ok: true };
-    } catch (err) {
-      console.error(err);
+      return { ok: true, data: insertData };
+    } catch (err: unknown) {
+      console.error("Error inesperado al guardar:", err);
       setMensaje("Error inesperado al guardar.");
-      return { ok: false };
+      return { ok: false, error: err };
     } finally {
       setLoading(false);
     }

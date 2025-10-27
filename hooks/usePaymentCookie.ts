@@ -5,10 +5,11 @@ export type CreditCard = {
   nombre_titular: string
   numero_enc: string
   cvv_enc: string
-  expiracion_month: string
-  expiracion_year: string
+  expiracion: string
   last4: string
   usuario_id: string
+  documentType?: string
+  documentNumber?: string
 }
 
 const COOKIE_KEY = "selectedPayment";
