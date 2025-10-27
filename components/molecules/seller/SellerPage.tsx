@@ -14,7 +14,7 @@ export default function SellerPage() {
     loading: loadingProductos,
     errorMsg: errorProductos,
   } = useSellerProducts();
-
+  console.log("SellerPage - productos:", productos);
   if (loading || loadingProductos)
     return (
       <p className="text-center mt-8 text-gray-600">
@@ -50,6 +50,7 @@ export default function SellerPage() {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Productos publicados
         </h2>
+        
 
         {errorProductos ? (
           <p className="text-red-500">{errorProductos}</p>

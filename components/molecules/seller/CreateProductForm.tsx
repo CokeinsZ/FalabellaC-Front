@@ -17,13 +17,20 @@ export default function CreateProductForm() {
     marca: "",
     categoria_id: "",
     destacado: false,
+    descuento: 0,
+    proveedor: "",
+    vendedor: "",
+    calificacion: 5,
+    especificaciones_principales: "",
+    especificaciones: "",
+    informacion_adicional: "",
     imageUrl: "",
     imageUrl2: "",
     imageUrl3: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
@@ -44,130 +51,67 @@ export default function CreateProductForm() {
       marca: form.marca,
       categoria_id: Number(form.categoria_id),
       destacado: form.destacado,
+      descuento: Number(form.descuento),
+      proveedor: form.proveedor,
+      calificacion: Number(form.calificacion),
+      especificaciones_principales: form.especificaciones_principales
+        ? JSON.parse(form.especificaciones_principales)
+        : {},
+      especificaciones: form.especificaciones
+        ? JSON.parse(form.especificaciones)
+        : {},
+      informacion_adicional: form.informacion_adicional
+        ? JSON.parse(form.informacion_adicional)
+        : {},
     });
 
-    if (productId && form.imageUrl) {
-      await createImage({
-        producto_id: productId,
-        url: form.imageUrl,
-        orden: 1,
-      });
-    }
-    if (productId && form.imageUrl2) {
-      await createImage({
-        producto_id: productId,
-        url: form.imageUrl2,
-        orden: 2,
-      });
-    }
-    if (productId && form.imageUrl3) {
-      await createImage({
-        producto_id: productId,
-        url: form.imageUrl3,
-        orden: 3,
-      });   
+    if (productId) {
+      const urls = [form.imageUrl, form.imageUrl2, form.imageUrl3].filter(Boolean);
+      for (let i = 0; i < urls.length; i++) {
+        await createImage({
+          producto_id: productId,
+          url: urls[i],
+          orden: i ,
+        });
+      }
     }
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-xl font-bold mb-4">🛍️ Crear Producto</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input
-          name="nombre"
-          placeholder="Nombre del producto"
-          value={form.nombre}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
+        <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} className="border p-2 rounded" required />
+        <input name="precio" type="number" placeholder="Precio" value={form.precio} onChange={handleChange} className="border p-2 rounded" required />
+        <input name="stock" type="number" placeholder="Stock" value={form.stock} onChange={handleChange} className="border p-2 rounded" required />
+        <input name="marca" placeholder="Marca" value={form.marca} onChange={handleChange} className="border p-2 rounded" />
+        <input name="descuento" type="number" placeholder="Descuento (%)" value={form.descuento} onChange={handleChange} className="border p-2 rounded" />
+        <input name="proveedor" placeholder="Proveedor" value={form.proveedor} onChange={handleChange} className="border p-2 rounded" />
+        <input name="calificacion" type="number" min="0" max="5" placeholder="Calificación (0-5)" value={form.calificacion} onChange={handleChange} className="border p-2 rounded" />
 
-        <input
-          name="precio"
-          type="number"
-          placeholder="Precio"
-          value={form.precio}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-
-        <input
-          name="stock"
-          type="number"
-          placeholder="Stock"
-          value={form.stock}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-
-        <input
-          name="marca"
-          placeholder="Marca"
-          value={form.marca}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <select
-          name="categoria_id"
-          value={form.categoria_id}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        >
+        <select name="categoria_id" value={form.categoria_id} onChange={handleChange} className="border p-2 rounded" required>
           <option value="">Selecciona una categoría</option>
-          {loadingCat ? (
-            <option>Cargando...</option>
-          ) : (
-            categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))
-          )}
+          {loadingCat ? <option>Cargando...</option> : categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>{cat.name}</option>
+          ))}
         </select>
 
         <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="destacado"
-            checked={form.destacado}
-            onChange={handleChange}
-          />
+          <input type="checkbox" name="destacado" checked={form.destacado} onChange={handleChange} />
           Producto destacado
         </label>
 
-        <input
-          name="imageUrl"
-          placeholder="URL de la primera imagen"
-          value={form.imageUrl}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+        {/* Campos JSON */}
+        <textarea name="especificaciones_principales" placeholder='Especificaciones principales (JSON)' value={form.especificaciones_principales} onChange={handleChange} className="border p-2 rounded h-24" />
+        <textarea name="especificaciones" placeholder='Especificaciones (JSON)' value={form.especificaciones} onChange={handleChange} className="border p-2 rounded h-24" />
+        <textarea name="informacion_adicional" placeholder='Información adicional (JSON)' value={form.informacion_adicional} onChange={handleChange} className="border p-2 rounded h-24" />
 
-        <input
-          name="imageUrl2"
-          placeholder="URL de la segunda imagen"
-          value={form.imageUrl2}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+        {/* Imágenes */}
+        <input name="imageUrl" placeholder="URL Imagen 1" value={form.imageUrl} onChange={handleChange} className="border p-2 rounded" />
+        <input name="imageUrl2" placeholder="URL Imagen 2" value={form.imageUrl2} onChange={handleChange} className="border p-2 rounded" />
+        <input name="imageUrl3" placeholder="URL Imagen 3" value={form.imageUrl3} onChange={handleChange} className="border p-2 rounded" />
 
-        <input
-          name="imageUrl3"
-          placeholder="URL de la tercera imagen"
-          value={form.imageUrl3}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
-          disabled={loading}
-        >
+        <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:bg-gray-400" disabled={loading}>
           {loading ? "Creando..." : "Crear producto"}
         </button>
       </form>
@@ -177,4 +121,3 @@ export default function CreateProductForm() {
     </div>
   );
 }
-

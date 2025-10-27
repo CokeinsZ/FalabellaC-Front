@@ -59,7 +59,6 @@ export function useSellerProducts() {
           .from("imagenes_producto")
           .select("producto_id, url")
           .in("producto_id", ids)
-          .eq("orden", 0);
 
         if (imagenesError) throw imagenesError;
 
@@ -85,6 +84,7 @@ export function useSellerProducts() {
     };
 
     fetchProducts();
+    
   }, []);
 
   return { productos, loading, errorMsg };

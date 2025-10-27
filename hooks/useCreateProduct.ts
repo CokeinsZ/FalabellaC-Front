@@ -12,6 +12,12 @@ export interface createProduct {
   marca?: string;
   destacado?: boolean;
   descuento?: number | null;
+  proveedor?: string | null;
+  proveedor_codigo?: string | null;
+  calificacion?: number | null;
+  especificaciones_principales?: Record<string, unknown> | null;
+  especificaciones?: Record<string, unknown> | null;
+  informacion_adicional?: Record<string, unknown> | null;
 }
 
 export function useCreateProduct() {
@@ -24,7 +30,6 @@ export function useCreateProduct() {
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    // 🧩 Obtener vendedor desde cookie
     const getCookie = (name: string): string | null => {
       const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
       return match ? decodeURIComponent(match[2]) : null;
@@ -32,20 +37,11 @@ export function useCreateProduct() {
 
     try {
       const vendedor = getCookie("user_id");
+      if (!vendedor) throw new Error("No se encontró el vendedor en la cookie.");
 
-      if (!vendedor) {
-        throw new Error("No se encontró el vendedor en la cookie.");
-      }
-
-      // 🧩 Insertar producto asociado al vendedor
       const { data, error } = await supabase
         .from("productos")
-        .insert([
-          {
-            ...producto,
-            vendedor,
-          },
-        ])
+        .insert([{ ...producto, vendedor }])
         .select("id");
 
       if (error) throw error;
@@ -61,10 +57,5 @@ export function useCreateProduct() {
     }
   };
 
-  return {
-    createProduct,
-    loading,
-    errorMsg,
-    successMsg,
-  };
+  return { createProduct, loading, errorMsg, successMsg };
 }
