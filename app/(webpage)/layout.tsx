@@ -27,7 +27,7 @@ export default function webpageLayout({
 }>) {
   return (
     <>
-      <body
+      <div
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >
         {/* Header */}
@@ -36,7 +36,7 @@ export default function webpageLayout({
         {/* Main Content */}
         <main className="mx-auto max-w-6xl p-6">{children}</main>
         <FooterData />
-      </body>
+      </div>
     </>
   );
 }

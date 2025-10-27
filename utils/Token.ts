@@ -66,7 +66,7 @@ export const LogoGroupToken = {
 
 export const ProductDetailToken = {
   container:
-    "max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-lg shadow",
+    "max-w-7xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 gap-10 px-6",
 
   mainImage: "rounded-lg object-cover w-full h-96",
   thumbnails: "flex gap-3 mt-4",
@@ -150,13 +150,13 @@ export const HeaderToken = {
 
 export const LoginToken = {
   overlay: "fixed inset-0 flex items-center justify-center bg-black/50 z-50",
-  container: "bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative",
+  container: "bg-white rounded-[5] shadow-lg w-full max-w-md p-6 relative",
 
   closeButton: "absolute top-2 right-2 text-gray-500 hover:text-gray-700",
 
-  logo: "mb-4 flex justify-center",
+  logo: "mb-4 flex",
 
-  title: "text-xl font-semibold mb-4 text-center",
+  title: "text-xl font-semibold mb-4",
 
   form: "space-y-4",
   inputError: "text-red-500 text-sm mt-1",

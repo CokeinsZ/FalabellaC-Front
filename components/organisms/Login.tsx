@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";
+import { Eye, EyeOff } from "lucide-react";
 
 import InputComponents from "../atoms/InputComponents";
 import { loginScheme } from "@/schemas/login";
@@ -26,7 +27,8 @@ export default function Login({ isOpen, onClose }: LoginProps) {
     resolver: zodResolver(loginScheme),
   });
 
-  const [mensaje, setMensaje] = React.useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) return null;
 
@@ -60,31 +62,25 @@ export default function Login({ isOpen, onClose }: LoginProps) {
     <div className={LoginToken.overlay}>
       <div className={LoginToken.container}>
         {/* Botón cerrar */}
-        <button
-          onClick={onClose}
-          className={LoginToken.closeButton}
-        >
+        <button onClick={onClose} className={LoginToken.closeButton}>
           ✕
         </button>
 
-        <a
-          href="https://www.falabella.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        {/* Logo */}
+        <div className={LoginToken.logo}>
           <Image
             src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
             alt="Falabella"
-            width={100}
-            height={24}
+            width={120}
+            height={30}
           />
-        </a>
+        </div>
 
-        <h2 className={LoginToken.title}>
-          Inicia sesión para comprar
-        </h2>
+        {/* Título */}
+        <h2 className={LoginToken.title}>Inicia sesión para comprar</h2>
 
-        <form className={LoginToken.title} onSubmit={handleSubmit(onSubmit)}>
+        {/* Formulario */}
+        <form className={LoginToken.form} onSubmit={handleSubmit(onSubmit)}>
           {/* Email */}
           <div>
             <InputComponents
@@ -99,30 +95,51 @@ export default function Login({ isOpen, onClose }: LoginProps) {
           </div>
 
           {/* Password */}
-          <div>
+          <div className="relative">
             <InputComponents
               label="Contraseña"
-              typeElement="password"
+              typeElement={showPassword ? "text" : "password"}
               idElement="password"
               register={register("password")}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-0 bottom-1 text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
             {errors.password && (
-              <p className={LoginToken.inputError}>{errors.password.message}</p>
+              <p className={LoginToken.inputError}>
+                {errors.password.message}
+              </p>
             )}
           </div>
 
-          <button
-            type="submit"
-            className={LoginToken.submit}
-          >
+          {/* Recuperar contraseña */}
+          <p className="text-[13px] text-gray-600 mt-2 leading-snug">
+            ¿Olvidaste tu contraseña? No te preocupes, pide un código verificador
+            por{" "}
+            <a href="#" className="text-[#0071e3] hover:underline">
+              correo
+            </a>{" "}
+            o{" "}
+            <a href="#" className="text-[#0071e3] hover:underline">
+              SMS
+            </a>{" "}
+            para cambiar tu contraseña.
+          </p>
+
+          {/* Botón submit */}
+          <button type="submit" className={LoginToken.submit}>
             Ingresar
           </button>
         </form>
 
-        {mensaje && (
-          <p className={LoginToken.message}>{mensaje}</p>
-        )}
+        {/* Mensaje */}
+        {mensaje && <p className={LoginToken.message}>{mensaje}</p>}
 
+        {/* Registro */}
         <p className={LoginToken.registerWrapper}>
           ¿Aún no tienes cuenta?{" "}
           <a href="/SignUp" className={LoginToken.registerLink}>
