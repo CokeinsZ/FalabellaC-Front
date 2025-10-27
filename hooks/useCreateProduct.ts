@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-
 export interface createProduct {
   sku?: string;
   nombre: string;
@@ -25,34 +24,34 @@ export function useCreateProduct() {
     setErrorMsg(null);
     setSuccessMsg(null);
 
+    // 🧩 Obtener vendedor desde cookie
     const getCookie = (name: string): string | null => {
-    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-    return match ? decodeURIComponent(match[2]) : null;
-  };
+      const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+      return match ? decodeURIComponent(match[2]) : null;
+    };
 
     try {
-      // 🧩 Obtener vendedor desde cookie
       const vendedor = getCookie("user_id");
 
       if (!vendedor) {
         throw new Error("No se encontró el vendedor en la cookie.");
       }
 
-      // 🧩 Insertar en la tabla productos
+      // 🧩 Insertar producto asociado al vendedor
       const { data, error } = await supabase
         .from("productos")
         .insert([
           {
             ...producto,
-            vendedor, // 🔗 Asociar producto al vendedor actual
+            vendedor,
           },
         ])
-        .select();
+        .select("id");
 
       if (error) throw error;
 
       setSuccessMsg("✅ Producto creado exitosamente.");
-      return data;
+      return data?.[0]?.id || null;
     } catch (err: any) {
       console.error("Error al crear producto:", err);
       setErrorMsg(err.message || "Error desconocido al crear el producto.");

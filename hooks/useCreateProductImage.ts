@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-export interface CreateProductImageDTO {
+export interface createProductImage {
   producto_id: number;
   url: string;
   orden?: number;
@@ -11,29 +11,36 @@ export interface CreateProductImageDTO {
 
 export function useCreateProductImage() {
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  const createProductImage = async (image: CreateProductImageDTO) => {
+  const createImage = async (image: createProductImage) => {
     setLoading(true);
-    setErrorMsg("");
-    setSuccess(false);
+    setErrorMsg(null);
+    setSuccessMsg(null);
 
     try {
-      const { error } = await supabase.from("imagenes_producto").insert([image]);
+      const { error } = await supabase
+        .from("imagenes_producto")
+        .insert([image]);
 
       if (error) throw error;
 
-      setSuccess(true);
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Error al crear la imagen";
-      setErrorMsg(message);
+      setSuccessMsg("🖼️ Imagen agregada correctamente.");
+      return true;
+    } catch (err: any) {
+      console.error("Error al agregar imagen:", err);
+      setErrorMsg(err.message || "Error desconocido al agregar la imagen.");
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  return { createProductImage, loading, errorMsg, success };
+  return {
+    createImage,
+    loading,
+    errorMsg,
+    successMsg,
+  };
 }
-
