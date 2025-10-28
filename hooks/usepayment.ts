@@ -9,7 +9,7 @@ export function usePayment() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showA, setShowA] = useState(true);
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-  const [currentAddress, setCurrentAddress] = useState<CreditCard | null>(null);
+  const [currentCard, setCurrentCard] = useState<CreditCard | null>(null);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
@@ -25,20 +25,20 @@ export function usePayment() {
     if (cookie) {
       const exists = (fetched ?? []).find((d: CreditCard) => d.id === cookie.id);
       if (exists) {
-        setCurrentAddress(exists);
+        setCurrentCard(exists);
         setSelectedId(exists.id);
         setSelectedPaymentCookie(exists);
         console.log("cookie seleccionada:", exists);
       } else {
-        setCurrentAddress(cookie);
+        setCurrentCard(cookie);
         setSelectedId(cookie.id);
       }
     } else if ((fetched ?? []).length > 0) {
-      setCurrentAddress((fetched ?? [])[0]);
+      setCurrentCard((fetched ?? [])[0]);
       setSelectedId((fetched ?? [])[0].id);
       setSelectedPaymentCookie((fetched ?? [])[0]);
     } else {
-      setCurrentAddress(null);
+      setCurrentCard(null);
       setSelectedId(undefined);
     }
 
@@ -53,7 +53,7 @@ export function usePayment() {
     setSelectedId(id);
     const found = (payments ?? []).find((d) => d.id === id);
     if (found) {
-      setCurrentAddress(found);
+      setCurrentCard(found);
       setSelectedPaymentCookie(found);
     }
   };
@@ -65,7 +65,7 @@ export function usePayment() {
     showA,
     setShowA,
     payments,
-    currentAddress,
+    currentCard,
     selectedId,
     setSelectedId: onSelected,
     fetchAll,
