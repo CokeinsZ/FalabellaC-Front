@@ -37,7 +37,7 @@ export default function PerfilPage() {
   ];
 
   return (
-    <div className="min-h-screen col-span-2 bg-gray-100">
+    <div className="min-h-screen col-span-2">
       <div className="max-w-6xl mx-auto p-6">
         {/* Encabezado y barra superior */}
         <div className="mb-6">

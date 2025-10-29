@@ -25,15 +25,11 @@ export default function webpageLayout({
 }>) {
   return (
     <>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
-      >
         {/* Header */}
         <CheckoutHeader />
 
         {/* Main Content */}
         <main className="mx-auto max-w-6xl p-6">{children}</main>
-      </body>
     </>
   );
 }

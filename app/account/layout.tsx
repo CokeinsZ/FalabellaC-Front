@@ -18,9 +18,9 @@ export default function webpageLayout({
     <>
 
       <Header />
-      <div className="w-full grid grid-cols-4 border-r border-gray-200 p-4">
+      <div className="w-full grid grid-cols-8 border-r border-gray-200 bg-gray-100">
         <PerfilPage />
-        <main className="col-span-2">{children}</main>
+        <main className="col-span-6">{children}</main>
       </div>
       
       <FooterData />
