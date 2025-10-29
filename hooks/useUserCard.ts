@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { UseFormSetValue } from "react-hook-form";
+import { FieldValues, Path, UseFormSetValue } from "react-hook-form";
 import { supabase } from "@/lib/supabaseClient";
 
 type UserCardInfo = {
@@ -9,8 +9,13 @@ type UserCardInfo = {
   email: string;
 };
 
-export function useUserCard<T extends Record<string, any> = any>(opts?: {
-  setValue?: UseFormSetValue<T>;
+type UserCardFormFields = {
+  usuario_id: string;
+  nombre_titular: string;
+};
+
+export function useUserCard<T extends FieldValues = UserCardFormFields>(opts?: {
+  setValue?: UseFormSetValue<T & UserCardFormFields>;
 }) {
   const [userInfo, setUserInfo] = useState<UserCardInfo>({
     usuario_id: "",
@@ -51,9 +56,9 @@ export function useUserCard<T extends Record<string, any> = any>(opts?: {
           setUserInfo(info);
 
           if (opts?.setValue) {
-            // casteos controlados para satisfacer a TS: la clave debe ser keyof T
-            opts.setValue("usuario_id" as any as keyof T, usuario_id as any);
-            opts.setValue("nombre_titular" as any as keyof T, nombre_titular as any);
+            const set = opts.setValue as UseFormSetValue<T & UserCardFormFields>;
+            set("usuario_id" as Path<T & UserCardFormFields>, usuario_id as any);
+            set("nombre_titular" as Path<T & UserCardFormFields>, nombre_titular as any);
           }
         }
       } catch (err: unknown) {

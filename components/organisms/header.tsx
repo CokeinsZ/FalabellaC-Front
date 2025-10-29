@@ -157,7 +157,7 @@ export default function Header() {
                   <li className="m-2 mt-0 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Mi cuenta</li>
                   <hr />
                   <li className="flex items-center gap-2 text-[#495867] hover:text-[#1a1a1a] mt-4 m-4 cursor-pointer">
-                    <img
+                    <Image
                       src="https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg"
                       alt="CMR Puntos"
                       className="w-4 h-4"

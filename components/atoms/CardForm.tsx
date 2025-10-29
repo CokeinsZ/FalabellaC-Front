@@ -149,13 +149,6 @@ export default function CardForm({ tipo, onSaved }: Props) {
           {loading ? "Guardando..." : "Agregar"}
         </button>
 
-        {Object.keys(errors).length > 0 && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            <p>Errores de validación:</p>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-          </div>
-        )}
-
         {mensaje && <p className="text-xs text-gray-500 mt-3">{mensaje}</p>}
         <p className="text-xs text-gray-500 mt-3">
           Validaremos tu tarjeta con un cobro único de $0 o $107 que será reembolsado.

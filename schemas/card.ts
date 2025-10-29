@@ -1,21 +1,6 @@
 import { z } from "zod";
 
 
-function luhnCheck(digits: string) {
-  let sum = 0;
-  let doubleDigit = false;
-  for (let i = digits.length - 1; i >= 0; i--) {
-    let d = parseInt(digits[i], 10);
-    if (doubleDigit) {
-      d *= 2;
-      if (d > 9) d -= 9;
-    }
-    sum += d;
-    doubleDigit = !doubleDigit;
-  }
-  return sum % 10 === 0;
-}
-
 function expiryIsValid(expiryRaw: string) {
   const raw = expiryRaw.trim();
   const m = raw.match(/^(\d{2})[\/\-]?(?:\d{2}|\d{4})$/);
@@ -38,9 +23,7 @@ export const cardScheme = z.object({
   numero_enc: z
     .string()
     .transform((s) => s.replace(/\s|-/g, ""))
-    .refine((s) => /^\d{13,19}$/.test(s), { message: "El número debe tener entre 13 y 19 dígitos" })
-    .refine((s) => luhnCheck(s), { message: "Número de tarjeta inválido" }),
-
+    .refine((s) => /^\d{13,19}$/.test(s), { message: "El número debe tener entre 13 y 19 dígitos" }),
 
   cvv_enc: z
     .string()

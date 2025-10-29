@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { tipoPersonaSchema } from "@/schemas/registroSeller";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import Image from "next/image";
 
 type FormData = z.infer<typeof tipoPersonaSchema>;
 
@@ -33,10 +34,12 @@ export default function RegistroInicioForm({ onSubmit, defaultValues }: Registro
         <div>
           <label className="text-sm font-medium text-gray-700">País</label>
           <div className="mt-3 border-b border-gray-200 pb-3 flex items-center gap-3">
-            <img
+            <Image
               src="https://flagcdn.com/w20/co.png"
               alt="Colombia"
               className="w-6 h-4 rounded-sm"
+              width={20}
+              height={14}
             />
             <span className="text-gray-700">Colombia</span>
           </div>

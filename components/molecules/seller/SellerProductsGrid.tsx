@@ -3,7 +3,16 @@
 import Link from "next/link";
 import ProductCard from "@/components/atoms/productCard";
 
-export function SellerProductsGrid({ productos }: { productos: any[] }) {
+export interface ProductoDTO {
+  id: number;
+  nombre: string;
+  marca?: string;
+  precio?: number;
+  stock?: number;
+  img?: string;
+}
+
+export function SellerProductsGrid({ productos }: { productos: ProductoDTO[] }) {
   return (
     <div className="p-6">
       {productos.length === 0 ? (
@@ -21,8 +30,8 @@ export function SellerProductsGrid({ productos }: { productos: any[] }) {
                 id={p.id}
                 name={p.nombre}
                 brand={p.marca}
-                price={p.precio}
-                img={p.img }
+                price={p.precio ?? 0}
+                img={p.img ?? ''}
               />
 
               <div className="flex justify-between p-3 border-t border-gray-100">
