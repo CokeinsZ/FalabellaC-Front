@@ -17,6 +17,7 @@ import {
 import { useUserCard } from "@/hooks/useUserCard";
 
 export default function PerfilPage() {
+  const { name } = useUserCard();
   const pathname = usePathname();
   const {name} = useUserCard();
 

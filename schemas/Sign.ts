@@ -16,4 +16,12 @@ export const signScheme = z.object({
     .string()
     .min(2, { message: "Ingresa mínimo 2 caracteres" })
     .max(80, { message: "Máximo 80 caracteres" }),
+  cedula: z
+    .string()
+    .min(10, { message: "Ingresa mínimo 10 caracteres" })
+    .max(15, { message: "Máximo 15 caracteres" }),
+  celular: z
+    .string()
+    .min(10, { message: "Ingresa mínimo 10 caracteres" })
+    .max(15, { message: "Máximo 15 caracteres" }),
 });

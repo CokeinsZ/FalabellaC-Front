@@ -27,6 +27,8 @@ export default function SignForm() {
     password,
     nombre,
     apellidos,
+    cedula,
+    celular,
   }) => {
     setMensaje("");
 
@@ -34,7 +36,7 @@ export default function SignForm() {
       email,
       password,
       options: {
-        data: { nombre, apellidos, isSeller: false},
+        data: { nombre, apellidos, isSeller: false, cedula, celular },
       },
     });
 
@@ -89,6 +91,28 @@ export default function SignForm() {
           />
           {errors.apellidos && (
             <p className={RegistroToken.message}>{errors.apellidos.message}</p>
+          )}
+
+          {/* Cedula */}
+          <InputComponents
+            label="Cedula"
+            typeElement="text"
+            idElement="cedula"
+            register={register("cedula")}
+          />
+          {errors.cedula && (
+            <p className={RegistroToken.message}>{errors.cedula.message}</p>
+          )}
+
+          {/* celular */}
+          <InputComponents
+            label="Celular"
+            typeElement="text"
+            idElement="celular"
+            register={register("celular")}
+          />
+          {errors.celular && (
+            <p className={RegistroToken.message}>{errors.celular.message}</p>
           )}
 
           {/* Password */}
