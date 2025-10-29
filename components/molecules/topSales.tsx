@@ -25,9 +25,9 @@ export default function TopSales({ title, products }: topSalesProps) {
 
       <div className={TopSalesToken.grid}>
         {products.map((p) => (
-          <Link key={p.id} href={`/products/${p.id}`}>
-            <ProductCard {...p} />
-          </Link>
+          
+            <ProductCard key={p.id} {...p} />
+          
           
         ))}
       </div>
