@@ -156,8 +156,24 @@ export default function Header() {
                       setIsDropdownOpen(false);     // cierra el dropdown
                       setIsLoginModalOpen(true);    // abre el modal real
                   }}>Inicia sesión</li>
-                  <li className="m-2 mt-1 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Regístrate</li>
-                  <li className="m-2 mt-0 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Mi cuenta</li>
+                  <li className="m-2 mt-1">
+                    <Link
+                      href="/SignUp"
+                      className="text-[#495867] hover:text-[#1a1a1a] cursor-pointer block"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Regístrate
+                    </Link>
+                  </li>
+                  <li className="m-2 mt-0">
+                    <Link
+                      href="/account"
+                      className="text-[#495867] hover:text-[#1a1a1a] cursor-pointer block"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Mi cuenta
+                    </Link>
+                  </li>
                   <hr />
                   <li className="flex items-center gap-2 text-[#495867] hover:text-[#1a1a1a] mt-4 m-4 cursor-pointer">
                     <Image
