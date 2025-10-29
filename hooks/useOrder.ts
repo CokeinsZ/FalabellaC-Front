@@ -4,6 +4,34 @@ import { getSelectedAddressFromCookie } from "@/hooks/useAddressCookie";
 import { getSelectedPaymentFromCookie } from "@/hooks/usePaymentCookie";
 import { useCart } from "./useCart";
 
+export interface Producto {
+  id: number;
+  nombre: string;
+  precio: number;
+  cantidad: number;
+  imagen?: string; 
+}
+
+const saveOrderDetails = async (orden_id: number, productos: Producto[]) => {
+  const detalles = productos.map((p) => ({
+    orden_id,
+    producto_id: p.id,
+    cantidad: p.cantidad,
+    precio_unit: p.precio,
+  }));
+
+  const { data, error } = await supabase
+    .from("orden_detalle")
+    .insert(detalles);
+
+  if (error) {
+    console.error("Error al guardar detalles de la orden:", error);
+    throw error;
+  }
+
+  return data;
+};
+
 export function useOrder() {
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
@@ -52,6 +80,8 @@ export function useOrder() {
         setMensaje("Error al guardar: " + (insertError.message || JSON.stringify(insertError)));
         return { ok: false, error: insertError };
       }
+
+      await saveOrderDetails(insertData[0].id, productos);
 
       setMensaje("Orden guardada correctamente.")
       return { ok: true, data: insertData };
