@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ProductCardToken } from "../../utils/Token";
-import  Link  from "next/link";
-
+import Link from "next/link";
 
 export interface ProductCardDTO {
   id: number | string;
@@ -27,6 +26,10 @@ export default function ProductCard({
   return (
     <div className={ProductCardToken.container}>
       <div className={`${ProductCardToken.imageWrapper} relative w-full aspect-square`}>
+        <Link href={`/products/${id}`} className="absolute inset-0 z-10">
+          <span className="sr-only">Ver producto {name}</span>
+        </Link>
+
         {typeof img === "string" && img !== "" ? (
           <Image
             src={img}
@@ -67,3 +70,4 @@ export default function ProductCard({
     </div>
   );
 }
+
