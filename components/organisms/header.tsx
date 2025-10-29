@@ -160,6 +160,8 @@ export default function Header() {
                     <Image
                       src="https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg"
                       alt="CMR Puntos"
+                      width={16}
+                      height={16}
                       className="w-4 h-4"
                     />
                     CMR Puntos

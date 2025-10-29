@@ -53,7 +53,8 @@ export default function ProductDetail({ id }: Props) {
         <Link href="/home" className={ProductDetailToken.category}>Home</Link>
         <span className={ProductDetailToken.category}>›</span>
         {categoriaPath.map((cat, i) => (
-          <span key={cat.id}>
+          console.log(cat.id),
+          <span key={`cat-${i}-${cat.id ?? cat.nombre}`}>
             <Link href="#" className={ProductDetailToken.category}>
               {cat.nombre}
             </Link>
@@ -85,8 +86,9 @@ export default function ProductDetail({ id }: Props) {
             <div className="flex gap-3 mt-4 overflow-x-auto">
               {imagenes.length > 0 ? (
                 imagenes.map((img, i) => (
+                  console.log(i),
                   <button
-                    key={i}
+                    key={img.url ?? `thumb-${i}-${encodeURIComponent(String(img.url))}`}
                     onClick={() => setSelected(i)}
                     className={`${ProductDetailToken.thumbnailImg} ${selected === i ? 'ring-2 ring-indigo-500' : 'border-gray-200'}`}
                   >
@@ -135,8 +137,8 @@ export default function ProductDetail({ id }: Props) {
                 <h2 className="font-medium">Especificaciones principales</h2>
                 <ul className="mt-2 text-sm space-y-1">
                   {producto.especificaciones_principales ? (
-                    Object.entries(producto.especificaciones_principales).map(([k, v]) => (
-                      <li key={k} className="flex gap-2"><span className="font-semibold">{k}:</span><span>{String(v)}</span></li>
+                    Object.entries(producto.especificaciones_principales).map(([k, v],idx) => (
+                      <li key={`spec-${idx}-${k}`} className="flex gap-2"><span className="font-semibold">{k}:</span><span>{String(v)}</span></li>
                     ))
                   ) : (
                     <li>No hay especificaciones principales</li>
@@ -217,8 +219,9 @@ export default function ProductDetail({ id }: Props) {
         <div className="col-span-2 shadow">
           <div className="space-y-6">
             {informacionAdicional && Object.entries(informacionAdicional).length > 0 ? (
-              Object.entries(informacionAdicional).map(([k, v]) => (
-                <div key={k}>
+              Object.entries(informacionAdicional).map(([k, v],idx) => (
+                console.log(k),
+                <div key={`info-${idx}-${k}`}>
                   <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-1">{k}</h2>
                   {
                     v.tt === 'tabla'

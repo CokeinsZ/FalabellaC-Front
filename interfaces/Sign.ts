@@ -3,4 +3,6 @@ export interface SignDTO {
   password: string;
   nombre: string;
   apellidos: string;
+  celular: string;
+  cedula: string;
 }

@@ -14,8 +14,10 @@ import {
   ShoppingBag,
   CircleHelp,
 } from "lucide-react";
+import { useUserCard } from "@/hooks/useUserCard";
 
 export default function PerfilPage() {
+  const { name } = useUserCard();
   const pathname = usePathname();
 
   const topTabs = [
@@ -41,7 +43,7 @@ export default function PerfilPage() {
       <div className="max-w-6xl mx-auto p-6">
         {/* Encabezado y barra superior */}
         <div className="mb-6">
-          <h1 className="text-2xl font-semibold mb-4">Hola, daniel</h1>
+          <h1 className="text-2xl font-semibold mb-4">Hola, {name}</h1>
 
           <div className="flex bg-white rounded-xl shadow divide-x divide-gray-100 overflow-hidden w-fit">
             {topTabs.map((tab) => {
