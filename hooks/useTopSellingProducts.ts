@@ -77,6 +77,7 @@ export const useTopSellingProducts = () => {
         const ids = raw.map((p) => p.id);
         const imagenes = await fetchMainImagesForProducts(ids);
         const productos = mapToProducto(raw, imagenes);
+        console.log("Productos destacados IDs:", raw.map(p => p.id));
         setTopSellingProducts(productos);
       } catch (err: unknown) {
         const message =

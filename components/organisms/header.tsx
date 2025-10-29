@@ -9,6 +9,7 @@ import PromoBar from "../atoms/PromoBar";
 import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
 import SearchSuggestions from "../molecules/SearchSuggestions";
+import { useUserCard } from "@/hooks/useUserCard";
 
 
 export default function Header() {
@@ -38,6 +39,7 @@ export default function Header() {
 
    const productos = useCart((state) => state.productos);
    const totalItems = productos.reduce((acc, p) => acc + p.cantidad, 0);
+   const {name} = useUserCard();
 
    const location = {
     iconSrc:
@@ -140,7 +142,8 @@ export default function Header() {
             >
               Hola,<br />
               <span className="text-[20px] font-semibold text-[#1a1a1a]">
-                Inicia sesión
+                {!name ? "Inicia sesión" : name
+                }
               </span>
             </button>
 
@@ -153,8 +156,24 @@ export default function Header() {
                       setIsDropdownOpen(false);     // cierra el dropdown
                       setIsLoginModalOpen(true);    // abre el modal real
                   }}>Inicia sesión</li>
-                  <li className="m-2 mt-1 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Regístrate</li>
-                  <li className="m-2 mt-0 text-[#495867] hover:text-[#1a1a1a] cursor-pointer">Mi cuenta</li>
+                  <li className="m-2 mt-1">
+                    <Link
+                      href="/SignUp"
+                      className="text-[#495867] hover:text-[#1a1a1a] cursor-pointer block"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Regístrate
+                    </Link>
+                  </li>
+                  <li className="m-2 mt-0">
+                    <Link
+                      href="/account"
+                      className="text-[#495867] hover:text-[#1a1a1a] cursor-pointer block"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Mi cuenta
+                    </Link>
+                  </li>
                   <hr />
                   <li className="flex items-center gap-2 text-[#495867] hover:text-[#1a1a1a] mt-4 m-4 cursor-pointer">
                     <Image
@@ -162,7 +181,7 @@ export default function Header() {
                       alt="CMR Puntos"
                       width={16}
                       height={16}
-                      className="w-4 h-4"
+                      className="object-contain"
                     />
                     CMR Puntos
                   </li>
