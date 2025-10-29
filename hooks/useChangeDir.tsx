@@ -1,18 +1,15 @@
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { setSelectedAddressCookie, removeSelectedAddressCookie } from "./useAddressCookie";
 import type { Address } from "./useAddressCookie";
 import { useAddresses } from "./useAddresses";
 
 /**
- * Hook para manejar la lógica del modal ChangeDir.
- * - initialAddresses: direcciones iniciales (props)
+ * Ahora expone openAddModal y setOpenAddModal.
+ * handleAddNew abre el modal en vez de navegar.
  */
 export function useChangeDir(initialAddresses: Address[] = []) {
-  const router = useRouter();
   const { direcciones: globalAddresses, fetchAddresses, deleteAddress } = useAddresses();
 
-  // Local state del modal
   const [localAddresses, setLocalAddresses] = useState<Address[]>(initialAddresses ?? globalAddresses ?? []);
   const [selectedId, setSelectedId] = useState<string | null>(() => {
     try {
@@ -26,6 +23,8 @@ export function useChangeDir(initialAddresses: Address[] = []) {
 
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   const syncWithGlobal = async () => {
     const fetched = await fetchAddresses();
@@ -68,12 +67,12 @@ export function useChangeDir(initialAddresses: Address[] = []) {
   };
 
   const handleAddNew = () => {
-    router.push("/perfil/direcciones/nueva");
+    setOpenAddModal(true);
   };
 
   const state = useMemo(
-    () => ({ localAddresses, selectedId, deletingId, error }),
-    [localAddresses, selectedId, deletingId, error]
+    () => ({ localAddresses, selectedId, deletingId, error, openAddModal }),
+    [localAddresses, selectedId, deletingId, error, openAddModal]
   );
 
   return {
@@ -84,5 +83,7 @@ export function useChangeDir(initialAddresses: Address[] = []) {
     handleSelect,
     handleDelete,
     handleAddNew,
+    openAddModal,
+    setOpenAddModal,
   };
 }
