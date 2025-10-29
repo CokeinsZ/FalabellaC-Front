@@ -25,25 +25,26 @@ export default function ProductCard({
   img,
 }: ProductCardDTO) {
   return (
-    <div>
-    <Link
-      key={id}
-      className={ProductCardToken.container}
-      href={`/products/${id}`}
-    >
-      {/* Imagen */}
-      
-      <div className={ProductCardToken.imageWrapper}>
-        <Image src={img} alt={name} fill className={ProductCardToken.image} sizes="auto" />
+    <div className={ProductCardToken.container}>
+      <div className={`${ProductCardToken.imageWrapper} relative w-full aspect-square`}>
+        {typeof img === "string" && img !== "" ? (
+          <Image
+            src={img}
+            alt={name || "Producto sin nombre"}
+            fill
+            className={ProductCardToken.image}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          />
+        ) : (
+          <div className="bg-gray-200 w-full h-full rounded-lg flex items-center justify-center text-gray-400">
+            Sin imagen
+          </div>
+        )}
       </div>
 
-      {/* Marca */}
       {brand && <h3 className={ProductCardToken.brand}>{brand}</h3>}
-
-      {/* Nombre */}
       <p className={ProductCardToken.name}>{name}</p>
 
-      {/* Precios */}
       <div className={ProductCardToken.pricesWrapper}>
         <span className={ProductCardToken.price}>
           ${price.toLocaleString("es-CO")}
@@ -55,21 +56,14 @@ export default function ProductCard({
         )}
       </div>
 
-      {/* Descuento */}
-      {discount && (
-        <span className={ProductCardToken.discount}>
-          {discount}
-        </span>
-      )}
+      {discount && <span className={ProductCardToken.discount}>{discount}</span>}
 
-      {/* Rating */}
       {rating && (
         <div className={ProductCardToken.ratingWrapper}>
           <span className={ProductCardToken.star}>★</span>
           <span className={ProductCardToken.rating}>{rating}</span>
         </div>
       )}
-    </Link>
     </div>
   );
 }

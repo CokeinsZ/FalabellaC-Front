@@ -80,5 +80,10 @@ export function useUserCard<T extends FieldValues = UserCardFormFields>(opts?: {
     return digits.slice(-4);
   }, []);
 
-  return { ...userInfo, loading, getLast4 };
+  const name = (() => {
+    const full = userInfo.nombre_titular||"invitado";
+    return full.trim().split(/\s+/)[0];
+  })();
+
+  return { ...userInfo, loading, getLast4, name };
 }

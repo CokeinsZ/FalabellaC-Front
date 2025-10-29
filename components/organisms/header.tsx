@@ -9,6 +9,7 @@ import PromoBar from "../atoms/PromoBar";
 import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
 import SearchSuggestions from "../molecules/SearchSuggestions";
+import { useUserCard } from "@/hooks/useUserCard";
 
 
 export default function Header() {
@@ -38,6 +39,7 @@ export default function Header() {
 
    const productos = useCart((state) => state.productos);
    const totalItems = productos.reduce((acc, p) => acc + p.cantidad, 0);
+   const {name} = useUserCard();
 
    const location = {
     iconSrc:
@@ -140,7 +142,8 @@ export default function Header() {
             >
               Hola,<br />
               <span className="text-[20px] font-semibold text-[#1a1a1a]">
-                Inicia sesión
+                {!name ? "Inicia sesión" : name
+                }
               </span>
             </button>
 
@@ -160,7 +163,9 @@ export default function Header() {
                     <Image
                       src="https://images.falabella.com/v3/assets/blt7c5c2f2f888a7cc3/blt12bfc7a09b55ab55/6538d0cfd31953c6b30dbd57/gray_geofinder.svg"
                       alt="CMR Puntos"
-                      className="w-4 h-4"
+                      width={16}
+                      height={16}
+                      className="object-contain"
                     />
                     CMR Puntos
                   </li>

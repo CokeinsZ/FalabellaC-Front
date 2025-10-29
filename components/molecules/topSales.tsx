@@ -28,6 +28,7 @@ export default function TopSales({ title, products }: topSalesProps) {
           <Link key={p.id} href={`/products/${p.id}`}>
             <ProductCard {...p} />
           </Link>
+          
         ))}
       </div>
     </section>
