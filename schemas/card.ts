@@ -37,7 +37,7 @@ export const cardScheme = z.object({
 
   numero_enc: z
     .string()
-    .transform((s) => s.replace(/\s|-/g, "")) // quitar espacios/guiones
+    .transform((s) => s.replace(/\s|-/g, ""))
     .refine((s) => /^\d{13,19}$/.test(s), { message: "El número debe tener entre 13 y 19 dígitos" })
     .refine((s) => luhnCheck(s), { message: "Número de tarjeta inválido" }),
 
@@ -56,7 +56,6 @@ export const cardScheme = z.object({
     })
     .refine((s) => expiryIsValid(s), { message: "La tarjeta está vencida" }),
 
-  // last4: exactamente 4 dígitos (lo puedes rellenar desde el campo numero_enc)
   last4: z
     .string()
     .trim()
