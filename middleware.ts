@@ -20,21 +20,14 @@ export async function middleware(req: NextRequest) {
     console.log("isSeller:", Seller);
     return NextResponse.redirect(new URL("/Vende-en-Falabella", req.url));
   }
-  if (pathname.startsWith("/seller")) {
-  const userId = req.cookies.get("user_id");
-  const nit = req.cookies.get("nit");
-  if (!userId || !nit) {
-    return NextResponse.redirect(new URL("/Vende-en-Falabella", req.url));
-  }
-}
 
   if (pathname.startsWith("/Vende-en-Falabella")) {
   const userId = req.cookies.get("user_id");
   const nit = req.cookies.get("nit");
-  if (userId || nit) {
-    return NextResponse.redirect(new URL("/seller", req.url));
+    if (userId && nit) {
+      return NextResponse.redirect(new URL("/seller", req.url));
+    }
   }
-}
 
   return NextResponse.next();
 }
