@@ -1,12 +1,69 @@
 import { z } from "zod";
 
+
+function luhnCheck(digits: string) {
+  let sum = 0;
+  let doubleDigit = false;
+  for (let i = digits.length - 1; i >= 0; i--) {
+    let d = parseInt(digits[i], 10);
+    if (doubleDigit) {
+      d *= 2;
+      if (d > 9) d -= 9;
+    }
+    sum += d;
+    doubleDigit = !doubleDigit;
+  }
+  return sum % 10 === 0;
+}
+
+function expiryIsValid(expiryRaw: string) {
+  const raw = expiryRaw.trim();
+  const m = raw.match(/^(\d{2})[\/\-]?(?:\d{2}|\d{4})$/);
+  if (!m) return false;
+  const mm = parseInt(m[1], 10);
+  if (mm < 1 || mm > 12) return false;
+
+  const yearPart = raw.replace(/^(\d{2})[\/\-]?/, "");
+  const year = yearPart.length === 2 ? 2000 + parseInt(yearPart, 10) : parseInt(yearPart, 10);
+
+  const expDate = new Date(year, mm, 0, 23, 59, 59, 999);
+  const now = new Date();
+  return expDate >= now;
+}
+
 export const cardScheme = z.object({
-  nombre_titular: z.string(),
-  numero_enc: z.string().max(16),
-  cvv_enc: z.string().max(3),
-  expiracion: z.string().max(5),
-  last4: z.string().max(4),
-  usuario_id: z.string(),
+  nombre_titular: z.string().min(2, "Nombre del titular requerido"),
+
+
+  numero_enc: z
+    .string()
+    .transform((s) => s.replace(/\s|-/g, "")) // quitar espacios/guiones
+    .refine((s) => /^\d{13,19}$/.test(s), { message: "El número debe tener entre 13 y 19 dígitos" })
+    .refine((s) => luhnCheck(s), { message: "Número de tarjeta inválido" }),
+
+
+  cvv_enc: z
+    .string()
+    .trim()
+    .refine((s) => /^\d{3,4}$/.test(s), { message: "CVV debe tener 3 o 4 dígitos" }),
+
+
+  expiracion: z
+    .string()
+    .trim()
+    .refine((s) => /^(\d{2})[\/\-]?(?:\d{2}|\d{4})$/.test(s), {
+      message: "Formato expiración inválido — usa MM/YY o MM/YYYY",
+    })
+    .refine((s) => expiryIsValid(s), { message: "La tarjeta está vencida" }),
+
+  // last4: exactamente 4 dígitos (lo puedes rellenar desde el campo numero_enc)
+  last4: z
+    .string()
+    .trim()
+    .refine((s) => /^\d{4}$/.test(s), { message: "last4 debe ser 4 dígitos" }),
+
+  usuario_id: z.string().uuid({ message: "usuario_id debe ser UUID" }),
+
   documentType: z.string().optional(),
   documentNumber: z.string().optional(),
 });

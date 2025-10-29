@@ -1,4 +1,3 @@
-// src/hooks/useUserCard.ts
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { UseFormSetValue } from "react-hook-form";
@@ -36,7 +35,6 @@ export function useUserCard<T extends Record<string, any> = any>(opts?: {
           return;
         }
 
-        // leer metadata desde user_metadata o raw_user_meta_data
         const meta: any = user.user_metadata || (user as any).raw_user_meta_data || {};
 
         const usuario_id = user.id;
@@ -52,11 +50,10 @@ export function useUserCard<T extends Record<string, any> = any>(opts?: {
         if (mounted) {
           setUserInfo(info);
 
-          // si nos pasaron setValue (from react-hook-form), rellenamos el formulario
           if (opts?.setValue) {
             // casteos controlados para satisfacer a TS: la clave debe ser keyof T
-            opts.setValue("usuario_id" as unknown as keyof T, usuario_id as any);
-            opts.setValue("nombre_titular" as unknown as keyof T, nombre_titular as any);
+            opts.setValue("usuario_id" as any as keyof T, usuario_id as any);
+            opts.setValue("nombre_titular" as any as keyof T, nombre_titular as any);
           }
         }
       } catch (err: unknown) {

@@ -48,12 +48,10 @@ export default function PaymentB({ payments }: PaymentBProps) {
     [deletePayment, fetchAll, selectedId, setSelectedId]
   );
 
-  // Abre el overlay/modal con PaymentA
   const goToAdd = useCallback(() => {
     setShowAdd(true);
   }, []);
 
-  // Cierra el modal y refresca lista
   const closeAdd = useCallback(
     async (refresh = true) => {
       setShowAdd(false);
@@ -123,16 +121,14 @@ export default function PaymentB({ payments }: PaymentBProps) {
         </button>
       </div>
 
-      {/* Overlay / modal simple que sobrepone PaymentA */}
+      {/* Overlay */}
       {showAdd && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* fondo semitransparente */}
           <div
             className="absolute inset-0 bg-black/50"
-            onClick={() => closeAdd(false)} // clic fuera cierra sin refrescar
+            onClick={() => closeAdd(false)}
           />
           <div className="relative bg-white rounded-2xl shadow-xl max-w-xl w-full mx-4 p-4 z-10">
-            {/* botón cerrar */}
             <div className="flex justify-end">
               <button
                 onClick={() => closeAdd(false)}
@@ -143,10 +139,8 @@ export default function PaymentB({ payments }: PaymentBProps) {
               </button>
             </div>
 
-            {/* PaymentA debe llamar onCardSaved cuando termine */}
             <PaymentA
               onCardSaved={async () => {
-                // cerramos y refrescamos
                 await closeAdd(true);
               }}
             />
