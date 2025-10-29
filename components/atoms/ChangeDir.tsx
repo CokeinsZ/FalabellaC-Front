@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useChangeDir } from "@/hooks/useChangeDir";
 import type { Address } from "@/hooks/useAddressCookie";
+import DirectionForm from "./DirectionForm";
 
 interface Props {
   isOpen: boolean;
@@ -18,6 +19,9 @@ export default function ChangeDir({ isOpen, onClose, adresses }: Props) {
     handleSelect,
     handleDelete,
     handleAddNew,
+    openAddModal,
+    setOpenAddModal,
+    syncWithGlobal,
   } = useChangeDir(adresses);
 
   useEffect(() => {
@@ -89,7 +93,13 @@ export default function ChangeDir({ isOpen, onClose, adresses }: Props) {
         </div>
 
         <footer className="mt-6 flex items-center justify-between gap-3">
-          <button onClick={() => { handleAddNew(); onClose(); }} className="text-sm underline" aria-label="Agregar nueva dirección">
+          <button
+            onClick={() => {
+              handleAddNew();
+            }}
+            className="text-sm underline"
+            aria-label="Agregar nueva dirección"
+          >
             Agregar nueva dirección
           </button>
 
@@ -101,6 +111,27 @@ export default function ChangeDir({ isOpen, onClose, adresses }: Props) {
           </div>
         </footer>
       </div>
+
+      {/* Modal anidado */}
+      {openAddModal && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setOpenAddModal(false)} aria-hidden="true" />
+
+          <div className="relative z-10 w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+            <header className="mb-3 flex items-center justify-between">
+              <h4 className="text-md font-medium">Agregar dirección</h4>
+              <button onClick={() => setOpenAddModal(false)} aria-label="Cerrar" className="text-sm px-2 py-1">✕</button>
+            </header>
+
+            <DirectionForm
+              onSaved={() => {
+                setOpenAddModal(false);
+                syncWithGlobal();
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
