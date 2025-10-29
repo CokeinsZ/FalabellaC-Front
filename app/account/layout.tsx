@@ -18,10 +18,11 @@ export default function webpageLayout({
     <>
 
       <Header />
-      <aside className="w-full md:w-1/4 border-r border-gray-200 p-4">
+      <div className="w-full grid grid-cols-4 border-r border-gray-200 p-4">
         <PerfilPage />
-      </aside>
-      <main className="">{children}</main>
+        <main className="col-span-2">{children}</main>
+      </div>
+      
       <FooterData />
     </>
   );

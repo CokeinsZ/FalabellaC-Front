@@ -15,12 +15,14 @@ export default function webpageLayout({
 }>) {
   return (
     <>
-      {/* Header */}
-      <Header />
+      <div>
+        {/* Header */}
+        <Header />
 
-      {/* Main Content */}
-      <main className="mx-auto max-w-6xl p-6">{children}</main>
-      <FooterData />
+        {/* Main Content */}
+        <main>{children}</main>
+        <FooterData />
+      </div>
     </>
   );
 }
