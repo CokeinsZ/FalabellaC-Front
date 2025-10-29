@@ -7,6 +7,24 @@ import type { Address } from "./useAddressCookie";
  * Hook principal para la pantalla de delivery / selección de dirección.
  * Expone: loading, direcciones, currentAddress, selectedId, pickup, delivery, fetchAll, showA, showDirectionModal, etc.
  */
+
+const addDays = (d: Date, days: number) => {
+  const r = new Date(d);
+  r.setDate(r.getDate() + days);
+  return r;
+};
+
+const formatDateSpanishShort = (d: Date) => {
+  // ejemplo: "martes 21 de oct."
+  const fmt = new Intl.DateTimeFormat("es-CO", {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+  });
+  // normalizamos: primera letra minúscula y quitamos punto final si existe
+  return fmt.format(d).replace(".", "");
+};
+
 export function useDelivery() {
   const { direcciones, fetchAddresses, setDirecciones, loading: loadingAddresses } = useAddresses();
   const [loading, setLoading] = useState(true);
@@ -15,14 +33,17 @@ export function useDelivery() {
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
   const [currentAddress, setCurrentAddress] = useState<Address | null>(null);
 
-  // Opciones de ejemplo (puedes cargar dinámicamente si lo necesitas)
+  const now = new Date();
+  const tomorrow = addDays(now, 1);
+  const deliver1day = addDays(now, 3);
+  const deliver2day = addDays(now, 4);
   const pickup = [
-    { id: "pickup-1", title: "Retira mañana", subtitle: "19 de oct. En FALABELLA LA CAROLA (1.6km)", meta: "Gratis" },
+    { id: "pickup-1", title: "Retira mañana", subtitle: `${formatDateSpanishShort(tomorrow)} · En FALABELLA LA CAROLA (1.6km)`, meta: "Gratis" },
   ];
 
   const delivery = [
-    { id: "delivery-1", title: "Llega el martes 21 de oct. de 8 a 20 h", price: "$ 13.200" },
-    { id: "delivery-2", title: "Llega entre el martes 21 y miércoles 22 de oct.", price: "$ 11.000" },
+    { id: "delivery-1", title:`Llega el ${formatDateSpanishShort(tomorrow)} de 8 a 20 h` , price: "$ 13.200" },
+    { id: "delivery-2", title: `Llega entre el ${formatDateSpanishShort(deliver1day)} y ${formatDateSpanishShort(deliver2day)} .`, price: "$ 11.000" },
   ];
 
   const fetchAll = useCallback(async () => {
