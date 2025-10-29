@@ -64,12 +64,11 @@ export default function CardForm({ tipo, onSaved }: Props) {
       reset();
       if (onSaved) onSaved();
     } else {
-      // el mensaje de error ya se maneja en useCardForm, pero lo dejamos para debug
       console.error("Error guardando tarjeta", result);
     }
   };
 
-  const onError = (errs: any) => {
+  const onError = (errs: unknown) => {
     console.log("❌ ERRORES DE VALIDACIÓN:", errs);
   };
 

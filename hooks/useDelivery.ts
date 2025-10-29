@@ -56,7 +56,6 @@ export function useDelivery() {
     setShowDirectionModal(!has);
     setShowA(!has);
 
-    // elegir dirección por cookie / primera / undefined
     const cookie = getSelectedAddressFromCookie();
     if (cookie) {
       const exists = (fetched ?? []).find((d: Address) => d.id === cookie.id);

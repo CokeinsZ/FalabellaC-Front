@@ -1,15 +1,19 @@
-import { useCallback, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import type { CardDTO } from "@/interfaces/card";
+import { useState } from "react";
+import { getSelectedAddressFromCookie } from "@/hooks/useAddressCookie";
+import { getSelectedPaymentFromCookie } from "@/hooks/usePaymentCookie";
+import { useCart } from "./useCart";
 
-export function useCardForm() {
+export function useOrder() {
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
-  
+  const { productos } = useCart();
+  const total = productos.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
 
-  const saveCard = useCallback(async (data: CardDTO) => {
+  const saveOrder = async () => {
     setMensaje("");
     setLoading(true);
+
     try {
       const { data: userData, error: userError } = await supabase.auth.getUser();
 
@@ -25,17 +29,20 @@ export function useCardForm() {
         return { ok: false };
       }
 
-      const usuario_id = typeof data.usuario_id !== "undefined" ? data.usuario_id : user.id;
- 
+      const direccion_id = getSelectedAddressFromCookie()?.id ?? null;
+
+      const metodo_pago = getSelectedPaymentFromCookie()?.id ?? null;
+
       const payload = {
-        ...data,
-        usuario_id,
+        usuario_id: user.id,
+        direccion_id,
+        metodo_pago,
+        total: total,
+        estado: "pendiente",
       };
 
-      console.log("Inserting payload to supabase:", payload);
-
       const { data: insertData, error: insertError } = await supabase
-        .from("tarjetas_credito")
+        .from("ordenes")
         .insert([payload])
         .select();
 
@@ -46,7 +53,7 @@ export function useCardForm() {
         return { ok: false, error: insertError };
       }
 
-      setMensaje("Tarjeta guardada correctamente.");
+      setMensaje("Orden guardada correctamente.")
       return { ok: true, data: insertData };
     } catch (err: unknown) {
       console.error("Error inesperado al guardar:", err);
@@ -55,7 +62,7 @@ export function useCardForm() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  return { mensaje, loading, saveCard };
+  return { mensaje, loading, saveOrder };
 }

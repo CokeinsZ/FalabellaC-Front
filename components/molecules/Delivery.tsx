@@ -33,7 +33,6 @@ export default function Delivery() {
     <div className="relative">
       <CheckoutStepper currentStep={1} />
 
-      {/* GRID PRINCIPAL */}
       <div className="max-w-6xl mx-auto mt-8 flex flex-col lg:flex-row gap-8">
         {/* Columna izquierda */}
         <div className="flex-1">
