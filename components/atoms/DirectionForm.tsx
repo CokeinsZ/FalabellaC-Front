@@ -94,7 +94,7 @@ export default function Direction({ onSaved }: Props) {
       <InputComponents label="Dirección" typeElement="text" idElement="direccion" register={register("direccion")} />
       <InputComponents label="Complemento (opcional)" typeElement="text" idElement="adicional" register={register("adicional")} />
 
-      <button type="submit" disabled={loading} className="w-full py-2 rounded bg-blue-600 text-white">
+      <button type="submit" disabled={loading} className="w-full py-2 rounded bg-green-600 text-white">
         {loading ? "Guardando..." : "Guardar dirección"}
       </button>
 

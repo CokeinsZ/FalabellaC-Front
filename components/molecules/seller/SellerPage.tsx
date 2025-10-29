@@ -4,7 +4,7 @@ import { useUserFromToken } from "@/hooks/UseUserToken";
 import { useSeller } from "@/hooks/useSeller";
 import { useSellerProducts } from "@/hooks/useSellerProducts";
 import { SellerProductsGrid } from "./SellerProductsGrid";
-
+import { useUserCard} from "@/hooks/useUserCard";
 
 export default function SellerPage() {
   const { user } = useUserFromToken();
@@ -14,6 +14,9 @@ export default function SellerPage() {
     loading: loadingProductos,
     errorMsg: errorProductos,
   } = useSellerProducts();
+
+  const { isSeller } = useUserCard();
+  console.log("SellerPage - isSeller:", isSeller);
   console.log("SellerPage - productos:", productos);
   if (loading || loadingProductos)
     return (

@@ -23,6 +23,7 @@ export function useUserCard<T extends FieldValues = UserCardFormFields>(opts?: {
     email: "",
   });
   const [loading, setLoading] = useState(true);
+  const [isSeller, setIsSeller] = useState<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
@@ -54,6 +55,7 @@ export function useUserCard<T extends FieldValues = UserCardFormFields>(opts?: {
 
         if (mounted) {
           setUserInfo(info);
+          setIsSeller(meta.isSeller);
 
           if (opts?.setValue) {
             const set = opts.setValue as UseFormSetValue<T & UserCardFormFields>;
@@ -85,5 +87,5 @@ export function useUserCard<T extends FieldValues = UserCardFormFields>(opts?: {
     return full.trim().split(/\s+/)[0];
   })();
 
-  return { ...userInfo, loading, getLast4, name };
+  return { ...userInfo, loading, getLast4, name , isSeller };
 }
